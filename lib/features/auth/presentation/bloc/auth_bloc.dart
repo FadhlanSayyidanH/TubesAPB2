@@ -32,12 +32,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required ForgotPasswordUseCase forgotPassword,
     required AuthLocalDataSource local,
     required AuthRepository repository,
-  })  : _login = login,
-        _logout = logout,
-        _getCurrentUser = getCurrentUser,
-        _forgotPassword = forgotPassword,
-        _local = local,
-        super(const AuthInitial()) {
+  }) : _login = login,
+       _logout = logout,
+       _getCurrentUser = getCurrentUser,
+       _forgotPassword = forgotPassword,
+       _local = local,
+       super(const AuthInitial()) {
     on<AuthCheckRequested>(_onCheckRequested);
     on<AuthStateChanged>(_onAuthStateChanged);
     on<LoginRequested>(_onLoginRequested);
@@ -58,14 +58,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthLoading());
     final result = await _getCurrentUser();
     result.fold(
-      (_) => emit(Unauthenticated(
-        rememberedIdentifier: _local.getRememberedIdentifier(),
-      )),
+      (_) => emit(
+        Unauthenticated(rememberedIdentifier: _local.getRememberedIdentifier()),
+      ),
       (user) => user != null
           ? emit(Authenticated(user))
-          : emit(Unauthenticated(
-              rememberedIdentifier: _local.getRememberedIdentifier(),
-            )),
+          : emit(
+              Unauthenticated(
+                rememberedIdentifier: _local.getRememberedIdentifier(),
+              ),
+            ),
     );
   }
 
@@ -77,9 +79,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     if (event.uid == null) {
       if (state is! Unauthenticated) {
-        emit(Unauthenticated(
-          rememberedIdentifier: _local.getRememberedIdentifier(),
-        ));
+        emit(
+          Unauthenticated(
+            rememberedIdentifier: _local.getRememberedIdentifier(),
+          ),
+        );
       }
       return;
     }
@@ -87,12 +91,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (current is Authenticated && current.user.uid == event.uid) return;
 
     final result = await _getCurrentUser();
-    result.fold(
-      (_) {},
-      (user) {
-        if (user != null) emit(Authenticated(user));
-      },
-    );
+    result.fold((_) {}, (user) {
+      if (user != null) emit(Authenticated(user));
+    });
   }
 
   Future<void> _onLoginRequested(
@@ -105,10 +106,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       password: event.password,
     );
     await result.fold(
-      (failure) async => emit(AuthError(
-        failure.message,
-        rememberedIdentifier: _local.getRememberedIdentifier(),
-      )),
+      (failure) async => emit(
+        AuthError(
+          failure.message,
+          rememberedIdentifier: _local.getRememberedIdentifier(),
+        ),
+      ),
       (user) async {
         // Simpan identifier hanya bila "Ingat saya" dicentang — tidak pernah password.
         if (event.rememberMe) {
@@ -126,7 +129,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     await _logout();
-    emit(Unauthenticated(rememberedIdentifier: _local.getRememberedIdentifier()));
+    emit(
+      Unauthenticated(rememberedIdentifier: _local.getRememberedIdentifier()),
+    );
   }
 
   void _onProfileUpdated(AuthProfileUpdated event, Emitter<AuthState> emit) {

@@ -4,11 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_attendance/features/admin/domain/entities/admin_stats.dart';
 import 'package:smart_attendance/features/attendance/domain/entities/attendance_entity.dart';
 
-AttendanceEntity _rec(
-  String userId,
-  String date,
-  AttendanceStatus status,
-) =>
+AttendanceEntity _rec(String userId, String date, AttendanceStatus status) =>
     AttendanceEntity(
       id: '${userId}_$date',
       userId: userId,
@@ -29,10 +25,14 @@ void main() {
 
   group('computeAdminStats — hari ini', () {
     test('hitung sudah-masuk, hadir, telat, dan belum-absen', () {
-      final stats = computeAdminStats([
-        _rec('a', today, AttendanceStatus.hadir),
-        _rec('b', today, AttendanceStatus.telat),
-      ], 5, now);
+      final stats = computeAdminStats(
+        [
+          _rec('a', today, AttendanceStatus.hadir),
+          _rec('b', today, AttendanceStatus.telat),
+        ],
+        5,
+        now,
+      );
 
       expect(stats.totalEmployees, 5);
       expect(stats.clockedInToday, 2);
@@ -49,28 +49,40 @@ void main() {
     });
 
     test('absen masuk melebihi data karyawan → alpha tidak negatif', () {
-      final stats = computeAdminStats([
-        _rec('a', today, AttendanceStatus.hadir),
-        _rec('b', today, AttendanceStatus.hadir),
-      ], 1, now);
+      final stats = computeAdminStats(
+        [
+          _rec('a', today, AttendanceStatus.hadir),
+          _rec('b', today, AttendanceStatus.hadir),
+        ],
+        1,
+        now,
+      );
       expect(stats.clockedInToday, 2);
       expect(stats.alphaToday, 0); // di-clamp, bukan -1
     });
 
     test('catatan hari lain tidak masuk hitungan hari ini', () {
-      final stats = computeAdminStats([
-        _rec('a', today, AttendanceStatus.hadir),
-        _rec('a', '2026-06-03', AttendanceStatus.telat),
-      ], 3, now);
+      final stats = computeAdminStats(
+        [
+          _rec('a', today, AttendanceStatus.hadir),
+          _rec('a', '2026-06-03', AttendanceStatus.telat),
+        ],
+        3,
+        now,
+      );
       expect(stats.clockedInToday, 1);
       expect(stats.lateToday, 0);
     });
 
     test('izin tidak dihitung sebagai sudah-masuk maupun alpha', () {
-      final stats = computeAdminStats([
-        _rec('a', today, AttendanceStatus.hadir),
-        _rec('b', today, AttendanceStatus.izin),
-      ], 3, now);
+      final stats = computeAdminStats(
+        [
+          _rec('a', today, AttendanceStatus.hadir),
+          _rec('b', today, AttendanceStatus.izin),
+        ],
+        3,
+        now,
+      );
       expect(stats.clockedInToday, 1); // hanya yang hadir/telat
       expect(stats.onLeaveToday, 1);
       expect(stats.alphaToday, 1); // 3 - 1 masuk - 1 izin
@@ -86,11 +98,15 @@ void main() {
     });
 
     test('present = hadir + telat, late = telat saja per hari', () {
-      final stats = computeAdminStats([
-        _rec('a', today, AttendanceStatus.hadir),
-        _rec('b', today, AttendanceStatus.telat),
-        _rec('c', '2026-06-02', AttendanceStatus.telat),
-      ], 3, now);
+      final stats = computeAdminStats(
+        [
+          _rec('a', today, AttendanceStatus.hadir),
+          _rec('b', today, AttendanceStatus.telat),
+          _rec('c', '2026-06-02', AttendanceStatus.telat),
+        ],
+        3,
+        now,
+      );
 
       final todayBucket = stats.last7Days.last;
       expect(todayBucket.present, 2); // hadir + telat

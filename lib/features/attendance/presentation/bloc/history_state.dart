@@ -32,19 +32,21 @@ class HistoryState extends Equatable {
   /// Catatan yang cocok dengan filter status + rentang tanggal aktif
   /// (seluruhnya — dipakai detail admin & jadi basis [visible]).
   List<AttendanceEntity> get filtered => records.where((r) {
-        if (filter != null && r.status != filter) return false;
-        if (fromDate != null &&
-            r.clockIn.isBefore(DateTime(
-                fromDate!.year, fromDate!.month, fromDate!.day))) {
-          return false;
-        }
-        if (toDate != null &&
-            r.clockIn.isAfter(DateTime(
-                toDate!.year, toDate!.month, toDate!.day, 23, 59, 59))) {
-          return false;
-        }
-        return true;
-      }).toList();
+    if (filter != null && r.status != filter) return false;
+    if (fromDate != null &&
+        r.clockIn.isBefore(
+          DateTime(fromDate!.year, fromDate!.month, fromDate!.day),
+        )) {
+      return false;
+    }
+    if (toDate != null &&
+        r.clockIn.isAfter(
+          DateTime(toDate!.year, toDate!.month, toDate!.day, 23, 59, 59),
+        )) {
+      return false;
+    }
+    return true;
+  }).toList();
 
   /// Sedang ada filter rentang tanggal aktif.
   bool get hasDateFilter => fromDate != null || toDate != null;
@@ -78,6 +80,13 @@ class HistoryState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [status, records, filter, message, visibleCount, fromDate, toDate];
+  List<Object?> get props => [
+    status,
+    records,
+    filter,
+    message,
+    visibleCount,
+    fromDate,
+    toDate,
+  ];
 }

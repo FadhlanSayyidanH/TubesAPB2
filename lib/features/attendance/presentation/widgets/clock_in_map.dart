@@ -43,8 +43,9 @@ class _ClockInMapState extends State<ClockInMap> {
   @override
   Widget build(BuildContext context) {
     final inside = widget.location?.isWithinOfficeRadius ?? true;
-    final radiusColor =
-        inside ? AppColors.insideRadius : AppColors.outsideRadius;
+    final radiusColor = inside
+        ? AppColors.insideRadius
+        : AppColors.outsideRadius;
 
     return GoogleMap(
       initialCameraPosition: CameraPosition(target: _officeLatLng, zoom: 15.5),

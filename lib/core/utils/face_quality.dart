@@ -48,10 +48,10 @@ FaceRejection? evaluateFace(FaceMetrics metrics) {
 extension FaceRejectionMessage on FaceRejection {
   /// Pesan siap-tampil (Bahasa Indonesia, actionable) untuk tiap alasan tolak.
   String get message => switch (this) {
-        FaceRejection.noFace => AppStrings.faceNotDetected,
-        FaceRejection.multipleFaces => AppStrings.faceMultipleDetected,
-        FaceRejection.tooDark => AppStrings.faceTooDark,
-        FaceRejection.tooBright => AppStrings.faceTooBright,
-        FaceRejection.tooBlurry => AppStrings.faceTooBlurry,
-      };
+    FaceRejection.noFace => AppStrings.faceNotDetected,
+    FaceRejection.multipleFaces => AppStrings.faceMultipleDetected,
+    FaceRejection.tooDark => AppStrings.faceTooDark,
+    FaceRejection.tooBright => AppStrings.faceTooBright,
+    FaceRejection.tooBlurry => AppStrings.faceTooBlurry,
+  };
 }

@@ -75,14 +75,14 @@ class ClockInState extends Equatable {
 
   @override
   List<Object?> get props => [
-        status,
-        user,
-        office,
-        location,
-        todayAttendance,
-        action,
-        message,
-        canOpenSettings,
-        isRefreshing,
-      ];
+    status,
+    user,
+    office,
+    location,
+    todayAttendance,
+    action,
+    message,
+    canOpenSettings,
+    isRefreshing,
+  ];
 }

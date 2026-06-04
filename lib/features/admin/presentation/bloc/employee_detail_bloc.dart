@@ -10,14 +10,15 @@ part 'employee_detail_event.dart';
 part 'employee_detail_state.dart';
 
 /// Mengelola perubahan peran satu user di halaman detail karyawan.
-class EmployeeDetailBloc extends Bloc<EmployeeDetailEvent, EmployeeDetailState> {
+class EmployeeDetailBloc
+    extends Bloc<EmployeeDetailEvent, EmployeeDetailState> {
   final UpdateUserRoleUseCase _updateRole;
 
   EmployeeDetailBloc({
     required UpdateUserRoleUseCase updateRole,
     required UserEntity user,
-  })  : _updateRole = updateRole,
-        super(EmployeeDetailState(user: user)) {
+  }) : _updateRole = updateRole,
+       super(EmployeeDetailState(user: user)) {
     on<EmployeeRoleToggleRequested>(_onToggle);
   }
 
@@ -31,14 +32,18 @@ class EmployeeDetailBloc extends Bloc<EmployeeDetailEvent, EmployeeDetailState> 
     emit(state.copyWith(status: RoleChangeStatus.saving));
     final result = await _updateRole(uid: current.uid, role: newRole);
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: RoleChangeStatus.error,
-        message: failure.message,
-      )),
-      (_) => emit(state.copyWith(
-        status: RoleChangeStatus.success,
-        user: current.copyWith(role: newRole),
-      )),
+      (failure) => emit(
+        state.copyWith(
+          status: RoleChangeStatus.error,
+          message: failure.message,
+        ),
+      ),
+      (_) => emit(
+        state.copyWith(
+          status: RoleChangeStatus.success,
+          user: current.copyWith(role: newRole),
+        ),
+      ),
     );
   }
 }

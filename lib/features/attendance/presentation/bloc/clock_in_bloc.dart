@@ -35,12 +35,12 @@ class ClockInBloc extends Bloc<ClockInEvent, ClockInState> {
     required GetTodayAttendanceUseCase getToday,
     required ClockInUseCase clockIn,
     required ClockOutUseCase clockOut,
-  })  : _getOffice = getOffice,
-        _getLocationStatus = getLocationStatus,
-        _getToday = getToday,
-        _clockIn = clockIn,
-        _clockOut = clockOut,
-        super(const ClockInState()) {
+  }) : _getOffice = getOffice,
+       _getLocationStatus = getLocationStatus,
+       _getToday = getToday,
+       _clockIn = clockIn,
+       _clockOut = clockOut,
+       super(const ClockInState()) {
     on<ClockInStarted>(_onStarted);
     on<LocationRefreshRequested>(_onRefreshRequested);
     on<AttendanceSubmitted>(_onSubmitted);
@@ -55,10 +55,12 @@ class ClockInBloc extends Bloc<ClockInEvent, ClockInState> {
     final officeResult = await _getOffice();
     final office = officeResult.fold((_) => null, (o) => o);
     if (office == null) {
-      emit(state.copyWith(
-        status: ClockInStatus.officeError,
-        message: officeResult.fold((f) => f.message, (_) => null),
-      ));
+      emit(
+        state.copyWith(
+          status: ClockInStatus.officeError,
+          message: officeResult.fold((f) => f.message, (_) => null),
+        ),
+      );
       return;
     }
 
@@ -66,11 +68,13 @@ class ClockInBloc extends Bloc<ClockInEvent, ClockInState> {
     final todayResult = await _getToday(event.user.uid);
     final today = todayResult.fold((_) => null, (a) => a);
 
-    emit(state.copyWith(
-      status: ClockInStatus.locating,
-      office: office,
-      todayAttendance: today,
-    ));
+    emit(
+      state.copyWith(
+        status: ClockInStatus.locating,
+        office: office,
+        todayAttendance: today,
+      ),
+    );
     await _refreshLocation(emit, office, isManual: false);
     _startPolling();
   }
@@ -97,19 +101,24 @@ class ClockInBloc extends Bloc<ClockInEvent, ClockInState> {
     result.fold(
       (failure) {
         _pollTimer?.cancel();
-        emit(state.copyWith(
-          status: ClockInStatus.locationError,
-          message: failure.message,
-          canOpenSettings:
-              failure is LocationFailure ? failure.openSettings : false,
-          isRefreshing: false,
-        ));
+        emit(
+          state.copyWith(
+            status: ClockInStatus.locationError,
+            message: failure.message,
+            canOpenSettings: failure is LocationFailure
+                ? failure.openSettings
+                : false,
+            isRefreshing: false,
+          ),
+        );
       },
-      (location) => emit(state.copyWith(
-        status: ClockInStatus.ready,
-        location: location,
-        isRefreshing: false,
-      )),
+      (location) => emit(
+        state.copyWith(
+          status: ClockInStatus.ready,
+          location: location,
+          isRefreshing: false,
+        ),
+      ),
     );
   }
 
@@ -123,10 +132,12 @@ class ClockInBloc extends Bloc<ClockInEvent, ClockInState> {
 
     // Gerbang radius: tolak absen bila di luar area, dengan pesan jaraknya.
     if (!location.isWithinOfficeRadius) {
-      emit(state.copyWith(
-        action: ClockInAction.failed,
-        message: AppStrings.outsideRadiusDialog(location.readableDistance),
-      ));
+      emit(
+        state.copyWith(
+          action: ClockInAction.failed,
+          message: AppStrings.outsideRadiusDialog(location.readableDistance),
+        ),
+      );
       emit(state.copyWith(action: ClockInAction.idle));
       return;
     }
@@ -134,10 +145,12 @@ class ClockInBloc extends Bloc<ClockInEvent, ClockInState> {
     final today = state.todayAttendance;
     // Clock-in wajib disertai selfie hasil verifikasi wajah (gerbang Hari 7).
     if (today == null && event.selfiePath == null) {
-      emit(state.copyWith(
-        action: ClockInAction.failed,
-        message: AppStrings.faceGateBeforeClockIn,
-      ));
+      emit(
+        state.copyWith(
+          action: ClockInAction.failed,
+          message: AppStrings.faceGateBeforeClockIn,
+        ),
+      );
       emit(state.copyWith(action: ClockInAction.idle));
       return;
     }
@@ -151,26 +164,34 @@ class ClockInBloc extends Bloc<ClockInEvent, ClockInState> {
         selfiePath: event.selfiePath!,
       );
       result.fold(
-        (failure) => emit(state.copyWith(
-          action: ClockInAction.failed,
-          message: failure.message,
-        )),
-        (record) => emit(state.copyWith(
-          action: ClockInAction.clockedIn,
-          todayAttendance: record,
-        )),
+        (failure) => emit(
+          state.copyWith(
+            action: ClockInAction.failed,
+            message: failure.message,
+          ),
+        ),
+        (record) => emit(
+          state.copyWith(
+            action: ClockInAction.clockedIn,
+            todayAttendance: record,
+          ),
+        ),
       );
     } else {
       final result = await _clockOut(today: today, location: location);
       result.fold(
-        (failure) => emit(state.copyWith(
-          action: ClockInAction.failed,
-          message: failure.message,
-        )),
-        (record) => emit(state.copyWith(
-          action: ClockInAction.clockedOut,
-          todayAttendance: record,
-        )),
+        (failure) => emit(
+          state.copyWith(
+            action: ClockInAction.failed,
+            message: failure.message,
+          ),
+        ),
+        (record) => emit(
+          state.copyWith(
+            action: ClockInAction.clockedOut,
+            todayAttendance: record,
+          ),
+        ),
       );
     }
     // Kembalikan ke idle agar BlocListener bisa menangkap aksi berikutnya.

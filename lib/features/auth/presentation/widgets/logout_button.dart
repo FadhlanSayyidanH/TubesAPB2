@@ -17,10 +17,7 @@ class LogoutButton extends StatelessWidget {
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(AppStrings.logoutConfirmTitle, style: AppTextStyles.title),
-        content: Text(
-          AppStrings.logoutConfirmBody,
-          style: AppTextStyles.body,
-        ),
+        content: Text(AppStrings.logoutConfirmBody, style: AppTextStyles.body),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),

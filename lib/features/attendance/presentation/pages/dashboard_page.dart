@@ -64,37 +64,37 @@ class _DashboardView extends StatelessWidget {
     // halaman dibuka ulang. BlocBuilder SettingsCubit memaksa rebuild penuh.
     return BlocBuilder<SettingsCubit, AppSettings>(
       builder: (context, _) => Scaffold(
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () async => context
-              .read<DashboardBloc>()
-              .add(DashboardLoadRequested(user.uid)),
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-            children: [
-              _GreetingHeader(fallbackUser: user),
-              const SizedBox(height: 24),
-              _TodayCard(onTapAbsen: () => _openClockIn(context)),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () => _openLeave(context),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.textPrimary,
+        body: SafeArea(
+          child: RefreshIndicator(
+            onRefresh: () async => context.read<DashboardBloc>().add(
+              DashboardLoadRequested(user.uid),
+            ),
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              children: [
+                _GreetingHeader(fallbackUser: user),
+                const SizedBox(height: 24),
+                _TodayCard(onTapAbsen: () => _openClockIn(context)),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () => _openLeave(context),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppColors.textPrimary,
+                    ),
+                    icon: const Icon(Icons.event_busy_outlined),
+                    label: Text(AppStrings.leaveButton),
                   ),
-                  icon: const Icon(Icons.event_busy_outlined),
-                  label: Text(AppStrings.leaveButton),
                 ),
-              ),
-              const SizedBox(height: 24),
-              Text(AppStrings.weeklySummaryTitle, style: AppTextStyles.title),
-              const SizedBox(height: 12),
-              const _WeeklySection(),
-            ],
+                const SizedBox(height: 24),
+                Text(AppStrings.weeklySummaryTitle, style: AppTextStyles.title),
+                const SizedBox(height: 12),
+                const _WeeklySection(),
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -111,8 +111,7 @@ class _GreetingHeader extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       buildWhen: (prev, curr) => curr is Authenticated,
       builder: (context, authState) {
-        final user =
-            authState is Authenticated ? authState.user : fallbackUser;
+        final user = authState is Authenticated ? authState.user : fallbackUser;
         return Row(
           children: [
             GestureDetector(
@@ -125,12 +124,16 @@ class _GreetingHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(AppStrings.greeting, style: AppTextStyles.subtitle),
-                  Text(user.name,
-                      style: AppTextStyles.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis),
-                  Text(AppStrings.departmentNik(user.department, user.nik),
-                      style: AppTextStyles.caption),
+                  Text(
+                    user.name,
+                    style: AppTextStyles.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    AppStrings.departmentNik(user.department, user.nik),
+                    style: AppTextStyles.caption,
+                  ),
                 ],
               ),
             ),
@@ -201,12 +204,19 @@ class _TodayCard extends StatelessWidget {
   Widget _notClockedIn() {
     return Column(
       children: [
-        Icon(Icons.location_on_outlined, size: 40, color: AppColors.safetyOrange),
+        Icon(
+          Icons.location_on_outlined,
+          size: 40,
+          color: AppColors.safetyOrange,
+        ),
         const SizedBox(height: 12),
         Text(AppStrings.notClockedInTitle, style: AppTextStyles.title),
         const SizedBox(height: 4),
-        Text(AppStrings.clockInRadiusHint,
-            style: AppTextStyles.subtitle, textAlign: TextAlign.center),
+        Text(
+          AppStrings.clockInRadiusHint,
+          style: AppTextStyles.subtitle,
+          textAlign: TextAlign.center,
+        ),
         const SizedBox(height: 16),
         SizedBox(
           width: double.infinity,
@@ -227,15 +237,20 @@ class _TodayCard extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(AppStrings.clockedInAt(timeFmt.format(record.clockIn)),
-                style: AppTextStyles.title),
+            Text(
+              AppStrings.clockedInAt(timeFmt.format(record.clockIn)),
+              style: AppTextStyles.title,
+            ),
             const SizedBox(width: 8),
             AttendanceStatusBadge(status: record.status),
           ],
         ),
         const SizedBox(height: 4),
-        Text(AppStrings.clockOutHint,
-            style: AppTextStyles.subtitle, textAlign: TextAlign.center),
+        Text(
+          AppStrings.clockOutHint,
+          style: AppTextStyles.subtitle,
+          textAlign: TextAlign.center,
+        ),
         const SizedBox(height: 16),
         SizedBox(
           width: double.infinity,
@@ -262,7 +277,10 @@ class _TodayCard extends StatelessWidget {
           children: [
             _timeChip(AppStrings.clockInShort, timeFmt.format(record.clockIn)),
             const SizedBox(width: 12),
-            _timeChip(AppStrings.clockOutShort, timeFmt.format(record.clockOut!)),
+            _timeChip(
+              AppStrings.clockOutShort,
+              timeFmt.format(record.clockOut!),
+            ),
           ],
         ),
       ],
@@ -315,11 +333,17 @@ class _StatsEmpty extends StatelessWidget {
           children: [
             Icon(Icons.insights_outlined, size: 48, color: AppColors.divider),
             const SizedBox(height: 12),
-            Text(AppStrings.weeklyEmptyTitle,
-                style: AppTextStyles.bodyBold, textAlign: TextAlign.center),
+            Text(
+              AppStrings.weeklyEmptyTitle,
+              style: AppTextStyles.bodyBold,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 4),
-            Text(AppStrings.weeklyEmptyHint,
-                style: AppTextStyles.caption, textAlign: TextAlign.center),
+            Text(
+              AppStrings.weeklyEmptyHint,
+              style: AppTextStyles.caption,
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
@@ -340,8 +364,11 @@ class _StatsError extends StatelessWidget {
           children: [
             const Icon(Icons.cloud_off, size: 40, color: AppColors.error),
             const SizedBox(height: 12),
-            Text(message,
-                style: AppTextStyles.caption, textAlign: TextAlign.center),
+            Text(
+              message,
+              style: AppTextStyles.caption,
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),

@@ -25,10 +25,10 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     required GetAttendanceBetweenUseCase getAttendanceBetween,
     required GetAllUsersUseCase getAllUsers,
     required CsvExportService csvService,
-  })  : _getAttendanceBetween = getAttendanceBetween,
-        _getAllUsers = getAllUsers,
-        _csvService = csvService,
-        super(const ExportState()) {
+  }) : _getAttendanceBetween = getAttendanceBetween,
+       _getAllUsers = getAllUsers,
+       _csvService = csvService,
+       super(const ExportState()) {
     on<ExportRequested>(_onRequested);
   }
 
@@ -42,19 +42,25 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     final fromKey = fmt.format(event.from);
     final toKey = fmt.format(event.to);
 
-    final recordsResult =
-        await _getAttendanceBetween(fromDate: fromKey, toDate: toKey);
+    final recordsResult = await _getAttendanceBetween(
+      fromDate: fromKey,
+      toDate: toKey,
+    );
     final failure = recordsResult.fold((f) => f, (_) => null);
     if (failure != null) {
-      emit(state.copyWith(status: ExportStatus.failure, message: failure.message));
+      emit(
+        state.copyWith(status: ExportStatus.failure, message: failure.message),
+      );
       return;
     }
     final records = recordsResult.getOrElse(() => const []);
     if (records.isEmpty) {
-      emit(state.copyWith(
-        status: ExportStatus.failure,
-        message: AppStrings.exportEmpty,
-      ));
+      emit(
+        state.copyWith(
+          status: ExportStatus.failure,
+          message: AppStrings.exportEmpty,
+        ),
+      );
       return;
     }
 
@@ -71,16 +77,20 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       final rows = buildAttendanceCsvRows(records, nikByUid);
       final fileName = 'laporan_absensi_${fromKey}_sd_$toKey.csv';
       final path = await _csvService.writeCsv(rows, fileName);
-      emit(state.copyWith(
-        status: ExportStatus.success,
-        filePath: path,
-        recordCount: records.length,
-      ));
+      emit(
+        state.copyWith(
+          status: ExportStatus.success,
+          filePath: path,
+          recordCount: records.length,
+        ),
+      );
     } catch (_) {
-      emit(state.copyWith(
-        status: ExportStatus.failure,
-        message: AppStrings.exportFailed,
-      ));
+      emit(
+        state.copyWith(
+          status: ExportStatus.failure,
+          message: AppStrings.exportFailed,
+        ),
+      );
     }
   }
 }

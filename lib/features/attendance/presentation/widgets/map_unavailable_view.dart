@@ -25,8 +25,11 @@ class MapUnavailableView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.map_outlined,
-              size: 56, color: AppColors.textOnDark.withValues(alpha: 0.4)),
+          Icon(
+            Icons.map_outlined,
+            size: 56,
+            color: AppColors.textOnDark.withValues(alpha: 0.4),
+          ),
           const SizedBox(height: 12),
           Text(
             'Peta dinonaktifkan sementara',
@@ -35,8 +38,9 @@ class MapUnavailableView extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             'Validasi lokasi tetap berjalan dari GPS di bawah.',
-            style: AppTextStyles.caption
-                .copyWith(color: AppColors.textOnDark.withValues(alpha: 0.6)),
+            style: AppTextStyles.caption.copyWith(
+              color: AppColors.textOnDark.withValues(alpha: 0.6),
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
@@ -72,7 +76,11 @@ class _InfoRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const _InfoRow({required this.icon, required this.label, required this.value});
+  const _InfoRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +89,17 @@ class _InfoRow extends StatelessWidget {
         Icon(icon, size: 18, color: AppColors.safetyOrange),
         const SizedBox(width: 10),
         Expanded(
-          child: Text(label,
-              style: AppTextStyles.caption
-                  .copyWith(color: AppColors.textOnDark.withValues(alpha: 0.7))),
+          child: Text(
+            label,
+            style: AppTextStyles.caption.copyWith(
+              color: AppColors.textOnDark.withValues(alpha: 0.7),
+            ),
+          ),
         ),
-        Text(value,
-            style: AppTextStyles.bodyBold.copyWith(color: AppColors.textOnDark)),
+        Text(
+          value,
+          style: AppTextStyles.bodyBold.copyWith(color: AppColors.textOnDark),
+        ),
       ],
     );
   }

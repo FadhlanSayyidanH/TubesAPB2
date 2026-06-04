@@ -22,9 +22,9 @@ class AppSettings extends Equatable {
   Locale get locale => isEnglish ? const Locale('en') : const Locale('id');
 
   AppSettings copyWith({ThemeMode? themeMode, bool? isEnglish}) => AppSettings(
-        themeMode: themeMode ?? this.themeMode,
-        isEnglish: isEnglish ?? this.isEnglish,
-      );
+    themeMode: themeMode ?? this.themeMode,
+    isEnglish: isEnglish ?? this.isEnglish,
+  );
 
   @override
   List<Object?> get props => [themeMode, isEnglish];

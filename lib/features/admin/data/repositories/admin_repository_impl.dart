@@ -60,7 +60,10 @@ class AdminRepositoryImpl implements AdminRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateUserRole(String uid, UserRole role) async {
+  Future<Either<Failure, void>> updateUserRole(
+    String uid,
+    UserRole role,
+  ) async {
     if (!await _networkInfo.isConnected) {
       return Left(NetworkFailure(AppStrings.errNoInternet));
     }

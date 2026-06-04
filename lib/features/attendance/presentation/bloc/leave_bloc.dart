@@ -14,8 +14,8 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
   final SubmitLeaveUseCase _submitLeave;
 
   LeaveBloc({required SubmitLeaveUseCase submitLeave})
-      : _submitLeave = submitLeave,
-        super(const LeaveState()) {
+    : _submitLeave = submitLeave,
+      super(const LeaveState()) {
     on<LeaveSubmitted>(_onSubmitted);
   }
 
@@ -30,10 +30,9 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
       reason: event.reason,
     );
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: LeaveStatus.error,
-        message: failure.message,
-      )),
+      (failure) => emit(
+        state.copyWith(status: LeaveStatus.error, message: failure.message),
+      ),
       (_) => emit(state.copyWith(status: LeaveStatus.success)),
     );
   }

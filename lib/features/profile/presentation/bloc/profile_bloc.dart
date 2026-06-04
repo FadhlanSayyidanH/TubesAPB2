@@ -20,9 +20,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({
     required UpdateProfileUseCase updateProfile,
     required ChangePasswordUseCase changePassword,
-  })  : _updateProfile = updateProfile,
-        _changePassword = changePassword,
-        super(const ProfileState()) {
+  }) : _updateProfile = updateProfile,
+       _changePassword = changePassword,
+       super(const ProfileState()) {
     on<ProfileSaveRequested>(_onSaveRequested);
     on<ProfilePasswordChangeRequested>(_onPasswordChangeRequested);
   }
@@ -31,21 +31,30 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileSaveRequested event,
     Emitter<ProfileState> emit,
   ) async {
-    emit(state.copyWith(saveStatus: ProfileSaveStatus.saving, clearSaveMessage: true));
+    emit(
+      state.copyWith(
+        saveStatus: ProfileSaveStatus.saving,
+        clearSaveMessage: true,
+      ),
+    );
     final result = await _updateProfile(
       uid: event.uid,
       name: event.name,
       photoPath: event.photoPath,
     );
     result.fold(
-      (failure) => emit(state.copyWith(
-        saveStatus: ProfileSaveStatus.failure,
-        saveMessage: failure.message,
-      )),
-      (user) => emit(state.copyWith(
-        saveStatus: ProfileSaveStatus.success,
-        updatedUser: user,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          saveStatus: ProfileSaveStatus.failure,
+          saveMessage: failure.message,
+        ),
+      ),
+      (user) => emit(
+        state.copyWith(
+          saveStatus: ProfileSaveStatus.success,
+          updatedUser: user,
+        ),
+      ),
     );
   }
 
@@ -53,20 +62,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfilePasswordChangeRequested event,
     Emitter<ProfileState> emit,
   ) async {
-    emit(state.copyWith(
-      passwordStatus: ProfilePasswordStatus.submitting,
-      clearPasswordMessage: true,
-    ));
+    emit(
+      state.copyWith(
+        passwordStatus: ProfilePasswordStatus.submitting,
+        clearPasswordMessage: true,
+      ),
+    );
     final result = await _changePassword(
       currentPassword: event.currentPassword,
       newPassword: event.newPassword,
     );
     result.fold(
-      (failure) => emit(state.copyWith(
-        passwordStatus: ProfilePasswordStatus.failure,
-        passwordMessage: failure.message,
-      )),
-      (_) => emit(state.copyWith(passwordStatus: ProfilePasswordStatus.success)),
+      (failure) => emit(
+        state.copyWith(
+          passwordStatus: ProfilePasswordStatus.failure,
+          passwordMessage: failure.message,
+        ),
+      ),
+      (_) =>
+          emit(state.copyWith(passwordStatus: ProfilePasswordStatus.success)),
     );
   }
 }

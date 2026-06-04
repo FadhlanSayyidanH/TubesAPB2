@@ -14,7 +14,9 @@ class OfficeModel extends OfficeEntity {
     required super.address,
   });
 
-  factory OfficeModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory OfficeModel.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> doc,
+  ) {
     final data = doc.data() ?? const {};
     final point = data['location'] as GeoPoint?;
     return OfficeModel(

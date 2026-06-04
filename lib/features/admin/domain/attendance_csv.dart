@@ -30,7 +30,8 @@ List<List<String>> buildAttendanceCsvRows(
     ],
   ];
 
-  final sorted = [...records]..sort((a, b) {
+  final sorted = [...records]
+    ..sort((a, b) {
       final byDate = a.date.compareTo(b.date);
       return byDate != 0
           ? byDate

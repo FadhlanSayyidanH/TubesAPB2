@@ -18,9 +18,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc({
     required GetTodayAttendanceUseCase getToday,
     required GetWeeklyStatsUseCase getWeeklyStats,
-  })  : _getToday = getToday,
-        _getWeeklyStats = getWeeklyStats,
-        super(const DashboardState()) {
+  }) : _getToday = getToday,
+       _getWeeklyStats = getWeeklyStats,
+       super(const DashboardState()) {
     on<DashboardLoadRequested>(_onLoad);
   }
 
@@ -36,20 +36,22 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     final todayResult = await _getToday(event.userId);
     final statsResult = await _getWeeklyStats(event.userId);
 
-    final failure = todayResult.fold((f) => f, (_) => null) ??
+    final failure =
+        todayResult.fold((f) => f, (_) => null) ??
         statsResult.fold((f) => f, (_) => null);
     if (failure != null) {
-      emit(state.copyWith(
-        status: DashboardStatus.error,
-        message: failure.message,
-      ));
+      emit(
+        state.copyWith(status: DashboardStatus.error, message: failure.message),
+      );
       return;
     }
 
-    emit(DashboardState(
-      status: DashboardStatus.loaded,
-      todayAttendance: todayResult.fold((_) => null, (a) => a),
-      weeklyStats: statsResult.fold((_) => null, (s) => s),
-    ));
+    emit(
+      DashboardState(
+        status: DashboardStatus.loaded,
+        todayAttendance: todayResult.fold((_) => null, (a) => a),
+        weeklyStats: statsResult.fold((_) => null, (s) => s),
+      ),
+    );
   }
 }

@@ -43,11 +43,11 @@ class HistoryShimmer extends StatelessWidget {
   }
 
   Widget _box(double w, double h) => Container(
-        width: w,
-        height: h,
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(8),
-        ),
-      );
+    width: w,
+    height: h,
+    decoration: BoxDecoration(
+      color: AppColors.surface,
+      borderRadius: BorderRadius.circular(8),
+    ),
+  );
 }

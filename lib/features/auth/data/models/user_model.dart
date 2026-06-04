@@ -30,14 +30,14 @@ class UserModel extends UserEntity {
   }
 
   Map<String, dynamic> toFirestore() => {
-        'uid': uid,
-        'name': name,
-        'email': email,
-        'nik': nik,
-        'role': role == UserRole.admin ? 'admin' : 'employee',
-        'department': department,
-        'photoUrl': photoUrl,
-      };
+    'uid': uid,
+    'name': name,
+    'email': email,
+    'nik': nik,
+    'role': role == UserRole.admin ? 'admin' : 'employee',
+    'department': department,
+    'photoUrl': photoUrl,
+  };
 
   static UserRole _roleFromString(String? value) =>
       value == 'admin' ? UserRole.admin : UserRole.employee;

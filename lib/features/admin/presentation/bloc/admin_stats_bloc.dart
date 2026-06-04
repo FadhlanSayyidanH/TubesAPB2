@@ -26,9 +26,9 @@ class AdminStatsBloc extends Bloc<AdminStatsEvent, AdminStatsState> {
   AdminStatsBloc({
     required WatchAttendanceUseCase watchAttendance,
     required GetEmployeeCountUseCase getEmployeeCount,
-  })  : _watchAttendance = watchAttendance,
-        _getEmployeeCount = getEmployeeCount,
-        super(const AdminStatsState()) {
+  }) : _watchAttendance = watchAttendance,
+       _getEmployeeCount = getEmployeeCount,
+       super(const AdminStatsState()) {
     on<AdminDashboardStarted>(_onStarted);
     on<AdminCountRefreshRequested>(_onCountRefresh);
   }
@@ -48,8 +48,9 @@ class AdminStatsBloc extends Bloc<AdminStatsEvent, AdminStatsState> {
     _employeeCount = countResult.getOrElse(() => 0);
 
     // 7 hari terakhir termasuk hari ini → mundur 6 hari dari hari ini.
-    final fromDate = DateFormat('yyyy-MM-dd')
-        .format(DateTime.now().subtract(const Duration(days: 6)));
+    final fromDate = DateFormat(
+      'yyyy-MM-dd',
+    ).format(DateTime.now().subtract(const Duration(days: 6)));
 
     await emit.forEach<List<AttendanceEntity>>(
       _watchAttendance(fromDate),
@@ -76,10 +77,12 @@ class AdminStatsBloc extends Bloc<AdminStatsEvent, AdminStatsState> {
     final countResult = await _getEmployeeCount();
     countResult.fold((_) {}, (count) {
       _employeeCount = count;
-      emit(state.copyWith(
-        status: AdminStatus.loaded,
-        stats: computeAdminStats(_records, count, DateTime.now()),
-      ));
+      emit(
+        state.copyWith(
+          status: AdminStatus.loaded,
+          stats: computeAdminStats(_records, count, DateTime.now()),
+        ),
+      );
     });
   }
 }

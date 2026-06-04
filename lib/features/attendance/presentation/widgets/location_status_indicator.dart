@@ -44,8 +44,10 @@ class LocationStatusIndicator extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label,
-                    style: AppTextStyles.bodyBold.copyWith(color: color)),
+                Text(
+                  label,
+                  style: AppTextStyles.bodyBold.copyWith(color: color),
+                ),
                 Text(
                   '${AppStrings.distanceToOffice}: ${location.readableDistance}',
                   style: AppTextStyles.caption,

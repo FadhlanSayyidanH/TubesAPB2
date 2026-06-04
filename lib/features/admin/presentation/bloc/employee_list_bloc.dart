@@ -14,8 +14,8 @@ class EmployeeListBloc extends Bloc<EmployeeListEvent, EmployeeListState> {
   final GetAllUsersUseCase _getAllUsers;
 
   EmployeeListBloc({required GetAllUsersUseCase getAllUsers})
-      : _getAllUsers = getAllUsers,
-        super(const EmployeeListState()) {
+    : _getAllUsers = getAllUsers,
+      super(const EmployeeListState()) {
     on<EmployeeListRequested>(_onRequested);
     on<EmployeeSearchChanged>(_onSearchChanged);
   }
@@ -34,13 +34,16 @@ class EmployeeListBloc extends Bloc<EmployeeListEvent, EmployeeListState> {
     emit(state.copyWith(status: EmployeeListStatus.loading));
     final result = await _getAllUsers();
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: EmployeeListStatus.error,
-        message: failure.message,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          status: EmployeeListStatus.error,
+          message: failure.message,
+        ),
+      ),
       (users) {
         // Admin di atas, lalu urut nama — daftar yang stabil & enak dibaca.
-        final sorted = [...users]..sort((a, b) {
+        final sorted = [...users]
+          ..sort((a, b) {
             if (a.isAdmin != b.isAdmin) return a.isAdmin ? -1 : 1;
             return a.name.toLowerCase().compareTo(b.name.toLowerCase());
           });

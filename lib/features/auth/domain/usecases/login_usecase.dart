@@ -15,9 +15,6 @@ class LoginUseCase {
     required String identifier,
     required String password,
   }) {
-    return _repository.login(
-      identifier: identifier.trim(),
-      password: password,
-    );
+    return _repository.login(identifier: identifier.trim(), password: password);
   }
 }

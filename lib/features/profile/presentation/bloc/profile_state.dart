@@ -37,13 +37,19 @@ class ProfileState extends Equatable {
       saveStatus: saveStatus ?? this.saveStatus,
       passwordStatus: passwordStatus ?? this.passwordStatus,
       saveMessage: clearSaveMessage ? null : (saveMessage ?? this.saveMessage),
-      passwordMessage:
-          clearPasswordMessage ? null : (passwordMessage ?? this.passwordMessage),
+      passwordMessage: clearPasswordMessage
+          ? null
+          : (passwordMessage ?? this.passwordMessage),
       updatedUser: updatedUser ?? this.updatedUser,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [saveStatus, passwordStatus, saveMessage, passwordMessage, updatedUser];
+  List<Object?> get props => [
+    saveStatus,
+    passwordStatus,
+    saveMessage,
+    passwordMessage,
+    updatedUser,
+  ];
 }

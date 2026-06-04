@@ -41,8 +41,10 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
         .collection('attendance')
         .where('date', isGreaterThanOrEqualTo: fromDate)
         .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map(AttendanceModel.fromFirestore).toList());
+        .map(
+          (snapshot) =>
+              snapshot.docs.map(AttendanceModel.fromFirestore).toList(),
+        );
   }
 
   @override

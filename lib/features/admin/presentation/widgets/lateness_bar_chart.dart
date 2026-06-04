@@ -15,8 +15,9 @@ class LatenessBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxLate =
-        days.map((d) => d.late).fold<int>(0, (a, b) => a > b ? a : b);
+    final maxLate = days
+        .map((d) => d.late)
+        .fold<int>(0, (a, b) => a > b ? a : b);
     final maxY = (maxLate + 1).toDouble();
 
     return SizedBox(
@@ -32,10 +33,12 @@ class LatenessBarChart extends StatelessWidget {
           ),
           borderData: FlBorderData(show: false),
           titlesData: FlTitlesData(
-            topTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            rightTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,

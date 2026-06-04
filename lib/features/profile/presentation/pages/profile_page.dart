@@ -48,8 +48,9 @@ class _ProfileViewState extends State<_ProfileView> {
   final _nameFormKey = GlobalKey<FormState>();
   final _passwordFormKey = GlobalKey<FormState>();
 
-  late final TextEditingController _nameController =
-      TextEditingController(text: widget.initialUser.name);
+  late final TextEditingController _nameController = TextEditingController(
+    text: widget.initialUser.name,
+  );
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -92,8 +93,10 @@ class _ProfileViewState extends State<_ProfileView> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.camera_alt_outlined,
-                  color: AppColors.textPrimary),
+              leading: Icon(
+                Icons.camera_alt_outlined,
+                color: AppColors.textPrimary,
+              ),
               title: Text(AppStrings.pickFromCamera),
               onTap: () {
                 Navigator.pop(sheetContext);
@@ -101,8 +104,10 @@ class _ProfileViewState extends State<_ProfileView> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.photo_library_outlined,
-                  color: AppColors.textPrimary),
+              leading: Icon(
+                Icons.photo_library_outlined,
+                color: AppColors.textPrimary,
+              ),
               title: Text(AppStrings.pickFromGallery),
               onTap: () {
                 Navigator.pop(sheetContext);
@@ -118,29 +123,35 @@ class _ProfileViewState extends State<_ProfileView> {
   void _saveProfile(String uid) {
     FocusScope.of(context).unfocus();
     if (!_nameFormKey.currentState!.validate()) return;
-    context.read<ProfileBloc>().add(ProfileSaveRequested(
-          uid: uid,
-          name: _nameController.text,
-          photoPath: _pickedPhotoPath,
-        ));
+    context.read<ProfileBloc>().add(
+      ProfileSaveRequested(
+        uid: uid,
+        name: _nameController.text,
+        photoPath: _pickedPhotoPath,
+      ),
+    );
   }
 
   void _changePassword() {
     FocusScope.of(context).unfocus();
     if (!_passwordFormKey.currentState!.validate()) return;
-    context.read<ProfileBloc>().add(ProfilePasswordChangeRequested(
-          currentPassword: _currentPasswordController.text,
-          newPassword: _newPasswordController.text,
-        ));
+    context.read<ProfileBloc>().add(
+      ProfilePasswordChangeRequested(
+        currentPassword: _currentPasswordController.text,
+        newPassword: _newPasswordController.text,
+      ),
+    );
   }
 
   void _showSnackBar(String message, {required bool isError}) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? AppColors.error : AppColors.success,
-      ));
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: isError ? AppColors.error : AppColors.success,
+        ),
+      );
   }
 
   /// Hanya tangani transisi status SIMPAN. Dipasang lewat listener terpisah
@@ -156,7 +167,10 @@ class _ProfileViewState extends State<_ProfileView> {
         setState(() => _pickedPhotoPath = null);
         _showSnackBar(AppStrings.profileSaved, isError: false);
       case ProfileSaveStatus.failure:
-        _showSnackBar(state.saveMessage ?? AppStrings.errUnknown, isError: true);
+        _showSnackBar(
+          state.saveMessage ?? AppStrings.errUnknown,
+          isError: true,
+        );
       case ProfileSaveStatus.idle:
       case ProfileSaveStatus.saving:
         break;
@@ -175,7 +189,9 @@ class _ProfileViewState extends State<_ProfileView> {
         _showSnackBar(AppStrings.passwordChanged, isError: false);
       case ProfilePasswordStatus.failure:
         _showSnackBar(
-            state.passwordMessage ?? AppStrings.errUnknown, isError: true);
+          state.passwordMessage ?? AppStrings.errUnknown,
+          isError: true,
+        );
       case ProfilePasswordStatus.idle:
       case ProfilePasswordStatus.submitting:
         break;
@@ -363,10 +379,14 @@ class _AppSettingsSection extends StatelessWidget {
                   settings.isDark ? Icons.dark_mode : Icons.light_mode,
                   color: AppColors.safetyOrange,
                 ),
-                title: Text(AppStrings.darkModeTitle,
-                    style: AppTextStyles.bodyBold),
-                subtitle: Text(AppStrings.darkModeSubtitle,
-                    style: AppTextStyles.caption),
+                title: Text(
+                  AppStrings.darkModeTitle,
+                  style: AppTextStyles.bodyBold,
+                ),
+                subtitle: Text(
+                  AppStrings.darkModeSubtitle,
+                  style: AppTextStyles.caption,
+                ),
                 value: settings.isDark,
                 onChanged: (value) =>
                     context.read<SettingsCubit>().setDarkMode(value),
@@ -377,10 +397,14 @@ class _AppSettingsSection extends StatelessWidget {
                   Icons.translate,
                   color: AppColors.safetyOrange,
                 ),
-                title: Text(AppStrings.languageTitle,
-                    style: AppTextStyles.bodyBold),
-                subtitle: Text(AppStrings.languageSubtitle,
-                    style: AppTextStyles.caption),
+                title: Text(
+                  AppStrings.languageTitle,
+                  style: AppTextStyles.bodyBold,
+                ),
+                subtitle: Text(
+                  AppStrings.languageSubtitle,
+                  style: AppTextStyles.caption,
+                ),
                 value: settings.isEnglish,
                 onChanged: (value) =>
                     context.read<SettingsCubit>().setEnglish(value),
@@ -414,17 +438,18 @@ class _ProfileAvatar extends StatelessWidget {
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [
-          ClipOval(
-            child: SizedBox(width: 96, height: 96, child: _image()),
-          ),
+          ClipOval(child: SizedBox(width: 96, height: 96, child: _image())),
           Container(
             padding: const EdgeInsets.all(6),
             decoration: const BoxDecoration(
               color: AppColors.safetyOrange,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.camera_alt,
-                size: 16, color: AppColors.textOnDark),
+            child: const Icon(
+              Icons.camera_alt,
+              size: 16,
+              color: AppColors.textOnDark,
+            ),
           ),
         ],
       ),
@@ -467,8 +492,11 @@ class _EmployeeIdCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(Icons.badge_outlined,
-                    size: 20, color: AppColors.safetyOrange),
+                const Icon(
+                  Icons.badge_outlined,
+                  size: 20,
+                  color: AppColors.safetyOrange,
+                ),
                 const SizedBox(width: 8),
                 Text(AppStrings.profileIdCardTitle, style: AppTextStyles.title),
               ],

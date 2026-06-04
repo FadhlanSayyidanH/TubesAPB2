@@ -33,9 +33,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   void _submit() {
     FocusScope.of(context).unfocus();
     if (!_formKey.currentState!.validate()) return;
-    context
-        .read<AuthBloc>()
-        .add(ForgotPasswordRequested(_emailController.text));
+    context.read<AuthBloc>().add(
+      ForgotPasswordRequested(_emailController.text),
+    );
   }
 
   @override
@@ -48,18 +48,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               curr is PasswordResetSent || curr is AuthError,
           listener: (context, state) {
             if (state is PasswordResetSent) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(AppStrings.resetLinkSent),
-                backgroundColor: AppColors.success,
-              ));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppStrings.resetLinkSent),
+                  backgroundColor: AppColors.success,
+                ),
+              );
               context.pop();
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
-                ..showSnackBar(SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: AppColors.error,
-                ));
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: AppColors.error,
+                  ),
+                );
             }
           },
           builder: (context, state) {
@@ -71,11 +75,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.lock_reset_outlined,
-                        size: 56, color: AppColors.safetyOrange),
+                    Icon(
+                      Icons.lock_reset_outlined,
+                      size: 56,
+                      color: AppColors.safetyOrange,
+                    ),
                     const SizedBox(height: 20),
-                    Text(AppStrings.forgotPasswordSubtitle,
-                        style: AppTextStyles.subtitle),
+                    Text(
+                      AppStrings.forgotPasswordSubtitle,
+                      style: AppTextStyles.subtitle,
+                    ),
                     const SizedBox(height: 32),
                     AuthTextField(
                       controller: _emailController,

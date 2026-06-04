@@ -51,32 +51,32 @@ class AttendanceModel extends AttendanceEntity {
   /// Payload pengajuan izin. Tak ada lokasi/selfie/clock-out; [clockIn] dipatok
   /// ke tanggal izin agar urut riwayat tetap konsisten. Menyimpan [reason].
   Map<String, dynamic> toLeaveMap() => {
-        'userId': userId,
-        'userName': userName,
-        'date': date,
-        'clockIn': Timestamp.fromDate(clockIn),
-        'clockInLocation': null,
-        'clockOut': null,
-        'clockOutLocation': null,
-        'selfieUrl': '',
-        'status': AttendanceStatus.izin.wireValue,
-        'isInRadius': false,
-        'workDuration': null,
-        'reason': reason,
-      };
+    'userId': userId,
+    'userName': userName,
+    'date': date,
+    'clockIn': Timestamp.fromDate(clockIn),
+    'clockInLocation': null,
+    'clockOut': null,
+    'clockOutLocation': null,
+    'selfieUrl': '',
+    'status': AttendanceStatus.izin.wireValue,
+    'isInRadius': false,
+    'workDuration': null,
+    'reason': reason,
+  };
 
   /// Payload saat clock-in (dokumen baru). clockOut & durasi belum ada.
   Map<String, dynamic> toClockInMap() => {
-        'userId': userId,
-        'userName': userName,
-        'date': date,
-        'clockIn': Timestamp.fromDate(clockIn),
-        'clockInLocation': GeoPoint(clockInLat, clockInLon),
-        'clockOut': null,
-        'clockOutLocation': null,
-        'selfieUrl': selfieUrl,
-        'status': status.wireValue,
-        'isInRadius': isInRadius,
-        'workDuration': null,
-      };
+    'userId': userId,
+    'userName': userName,
+    'date': date,
+    'clockIn': Timestamp.fromDate(clockIn),
+    'clockInLocation': GeoPoint(clockInLat, clockInLon),
+    'clockOut': null,
+    'clockOutLocation': null,
+    'selfieUrl': selfieUrl,
+    'status': status.wireValue,
+    'isInRadius': isInRadius,
+    'workDuration': null,
+  };
 }

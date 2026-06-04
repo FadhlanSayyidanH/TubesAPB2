@@ -10,7 +10,8 @@ import 'app_colors.dart';
 class AppTextStyles {
   const AppTextStyles._();
 
-  static TextStyle get _base => GoogleFonts.poppins(color: AppColors.textPrimary);
+  static TextStyle get _base =>
+      GoogleFonts.poppins(color: AppColors.textPrimary);
 
   static TextStyle get displayLarge =>
       _base.copyWith(fontSize: 28, fontWeight: FontWeight.w700, height: 1.2);
@@ -34,8 +35,8 @@ class AppTextStyles {
       _base.copyWith(fontSize: 12, color: AppColors.textHint);
 
   static TextStyle get button => GoogleFonts.poppins(
-        fontSize: 15,
-        fontWeight: FontWeight.w600,
-        color: AppColors.textOnDark,
-      );
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textOnDark,
+  );
 }

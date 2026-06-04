@@ -5,17 +5,17 @@ import 'package:smart_attendance/features/attendance/domain/entities/attendance_
 import 'package:smart_attendance/features/attendance/domain/usecases/get_weekly_stats_usecase.dart';
 
 AttendanceEntity _rec(String date, AttendanceStatus status) => AttendanceEntity(
-      id: 'u_$date',
-      userId: 'u',
-      userName: 'Budi',
-      date: date,
-      clockIn: DateTime.parse('$date 08:00:00'),
-      clockInLat: 0,
-      clockInLon: 0,
-      selfieUrl: '',
-      status: status,
-      isInRadius: true,
-    );
+  id: 'u_$date',
+  userId: 'u',
+  userName: 'Budi',
+  date: date,
+  clockIn: DateTime.parse('$date 08:00:00'),
+  clockInLat: 0,
+  clockInLon: 0,
+  selfieUrl: '',
+  status: status,
+  isInRadius: true,
+);
 
 void main() {
   // 2024-01-01 adalah hari Senin — acuan awal minggu yang stabil untuk tes.
@@ -45,10 +45,9 @@ void main() {
     });
 
     test('hanya hari Senin yang dihitung saat now = Senin', () {
-      final stats = computeWeeklyStats(
-        [_rec('2024-01-01', AttendanceStatus.hadir)],
-        monday,
-      );
+      final stats = computeWeeklyStats([
+        _rec('2024-01-01', AttendanceStatus.hadir),
+      ], monday);
       expect(stats.workdaysElapsed, 1);
       expect(stats.hadir, 1);
       expect(stats.attendancePercentage, 100);

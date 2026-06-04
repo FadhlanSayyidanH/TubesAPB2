@@ -38,38 +38,53 @@ class AttendanceDetailPage extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(formatTanggalLengkap(record.clockIn),
-                    style: AppTextStyles.title),
+                child: Text(
+                  formatTanggalLengkap(record.clockIn),
+                  style: AppTextStyles.title,
+                ),
               ),
               AttendanceStatusBadge(status: record.status),
             ],
           ),
           const SizedBox(height: 16),
-          _InfoCard(rows: [
-            _InfoRow(AppStrings.labelClockIn, timeFmt.format(record.clockIn)),
-            _InfoRow(
-              AppStrings.labelClockOut,
-              record.hasClockedOut
-                  ? timeFmt.format(record.clockOut!)
-                  : AppStrings.notClockedOutYet,
-            ),
-            _InfoRow(
-                AppStrings.labelDuration, _durationText(record.workDurationMinutes)),
-            _InfoRow(
-              AppStrings.labelLocationStatus,
-              record.isInRadius ? AppStrings.inRadiusYes : AppStrings.inRadiusNo,
-              valueColor:
-                  record.isInRadius ? AppColors.success : AppColors.warning,
-            ),
-          ]),
+          _InfoCard(
+            rows: [
+              _InfoRow(AppStrings.labelClockIn, timeFmt.format(record.clockIn)),
+              _InfoRow(
+                AppStrings.labelClockOut,
+                record.hasClockedOut
+                    ? timeFmt.format(record.clockOut!)
+                    : AppStrings.notClockedOutYet,
+              ),
+              _InfoRow(
+                AppStrings.labelDuration,
+                _durationText(record.workDurationMinutes),
+              ),
+              _InfoRow(
+                AppStrings.labelLocationStatus,
+                record.isInRadius
+                    ? AppStrings.inRadiusYes
+                    : AppStrings.inRadiusNo,
+                valueColor: record.isInRadius
+                    ? AppColors.success
+                    : AppColors.warning,
+              ),
+            ],
+          ),
           const SizedBox(height: 12),
-          _InfoCard(rows: [
-            _InfoRow(AppStrings.labelCoordIn,
-                _coord(record.clockInLat, record.clockInLon)),
-            if (record.clockOutLat != null && record.clockOutLon != null)
-              _InfoRow(AppStrings.labelCoordOut,
-                  _coord(record.clockOutLat!, record.clockOutLon!)),
-          ]),
+          _InfoCard(
+            rows: [
+              _InfoRow(
+                AppStrings.labelCoordIn,
+                _coord(record.clockInLat, record.clockInLon),
+              ),
+              if (record.clockOutLat != null && record.clockOutLon != null)
+                _InfoRow(
+                  AppStrings.labelCoordOut,
+                  _coord(record.clockOutLat!, record.clockOutLon!),
+                ),
+            ],
+          ),
         ],
       ),
     );
@@ -88,8 +103,10 @@ class AttendanceDetailPage extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(formatTanggalLengkap(record.clockIn),
-                    style: AppTextStyles.title),
+                child: Text(
+                  formatTanggalLengkap(record.clockIn),
+                  style: AppTextStyles.title,
+                ),
               ),
               AttendanceStatusBadge(status: record.status),
             ],

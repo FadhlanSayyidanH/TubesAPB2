@@ -62,8 +62,9 @@ class WeeklyStatsShimmer extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         shape: shape,
-        borderRadius:
-            shape == BoxShape.rectangle ? BorderRadius.circular(8) : null,
+        borderRadius: shape == BoxShape.rectangle
+            ? BorderRadius.circular(8)
+            : null,
       ),
     );
   }

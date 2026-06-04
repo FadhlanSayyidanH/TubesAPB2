@@ -71,7 +71,8 @@ class AppRouter {
     }
 
     final isLoggedIn = authState is Authenticated;
-    final onAuthScreen = location == '/login' ||
+    final onAuthScreen =
+        location == '/login' ||
         location == '/forgot-password' ||
         location == '/splash';
 

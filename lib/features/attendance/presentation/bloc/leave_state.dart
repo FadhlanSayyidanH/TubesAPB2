@@ -11,10 +11,7 @@ class LeaveState extends Equatable {
   const LeaveState({this.status = LeaveStatus.idle, this.message});
 
   LeaveState copyWith({LeaveStatus? status, String? message}) {
-    return LeaveState(
-      status: status ?? this.status,
-      message: message,
-    );
+    return LeaveState(status: status ?? this.status, message: message);
   }
 
   @override

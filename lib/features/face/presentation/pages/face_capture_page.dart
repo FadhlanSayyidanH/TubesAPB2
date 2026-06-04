@@ -34,10 +34,12 @@ class _FaceCaptureView extends StatelessWidget {
     if (state.rejectionMessage != null) {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(
-          content: Text(state.rejectionMessage!),
-          backgroundColor: AppColors.warning,
-        ));
+        ..showSnackBar(
+          SnackBar(
+            content: Text(state.rejectionMessage!),
+            backgroundColor: AppColors.warning,
+          ),
+        );
     }
     if (state.status == FaceCaptureStatus.success) {
       Navigator.of(context).pop(state.capturedPath);
@@ -112,9 +114,9 @@ class _CameraView extends StatelessWidget {
               isBusy: capturing,
               onPressed: capturing
                   ? null
-                  : () => context
-                      .read<FaceCaptureBloc>()
-                      .add(const FaceShutterPressed()),
+                  : () => context.read<FaceCaptureBloc>().add(
+                      const FaceShutterPressed(),
+                    ),
             ),
           ),
         ),
@@ -200,8 +202,10 @@ class _CameraLoader extends StatelessWidget {
             valueColor: AlwaysStoppedAnimation(AppColors.safetyOrange),
           ),
           const SizedBox(height: 16),
-          Text(message,
-              style: AppTextStyles.subtitle.copyWith(color: AppColors.textOnDark)),
+          Text(
+            message,
+            style: AppTextStyles.subtitle.copyWith(color: AppColors.textOnDark),
+          ),
         ],
       ),
     );
@@ -220,8 +224,11 @@ class _CameraErrorState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.no_photography_outlined,
-                size: 64, color: AppColors.outsideRadius),
+            const Icon(
+              Icons.no_photography_outlined,
+              size: 64,
+              color: AppColors.outsideRadius,
+            ),
             const SizedBox(height: 16),
             Text(
               state.cameraErrorMessage ?? AppStrings.errCameraUnavailable,
@@ -239,9 +246,9 @@ class _CameraErrorState extends StatelessWidget {
                   if (state.canOpenSettings) {
                     await openAppSettings();
                   } else {
-                    context
-                        .read<FaceCaptureBloc>()
-                        .add(const FaceCameraRequested());
+                    context.read<FaceCaptureBloc>().add(
+                      const FaceCameraRequested(),
+                    );
                   }
                 },
               ),

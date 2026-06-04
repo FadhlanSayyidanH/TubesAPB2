@@ -28,8 +28,10 @@ class AdminTodayCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(AppStrings.adminTodayAttendanceTitle,
-                          style: AppTextStyles.bodyBold),
+                      Text(
+                        AppStrings.adminTodayAttendanceTitle,
+                        style: AppTextStyles.bodyBold,
+                      ),
                       const SizedBox(height: 4),
                       Text(
                         '${stats.clockedInToday} ${AppStrings.adminOfTotal.replaceFirst('%d', '${stats.totalEmployees}')}',
@@ -44,21 +46,25 @@ class AdminTodayCard extends StatelessWidget {
             Row(
               children: [
                 _Tile(
-                    label: AppStrings.adminClockedIn,
-                    value: stats.clockedInToday,
-                    color: AppColors.statusIzin),
+                  label: AppStrings.adminClockedIn,
+                  value: stats.clockedInToday,
+                  color: AppColors.statusIzin,
+                ),
                 _Tile(
-                    label: AppStrings.adminOnTime,
-                    value: stats.onTimeToday,
-                    color: AppColors.statusHadir),
+                  label: AppStrings.adminOnTime,
+                  value: stats.onTimeToday,
+                  color: AppColors.statusHadir,
+                ),
                 _Tile(
-                    label: AppStrings.adminLate,
-                    value: stats.lateToday,
-                    color: AppColors.statusTelat),
+                  label: AppStrings.adminLate,
+                  value: stats.lateToday,
+                  color: AppColors.statusTelat,
+                ),
                 _Tile(
-                    label: AppStrings.adminAlpha,
-                    value: stats.alphaToday,
-                    color: AppColors.statusAlpha),
+                  label: AppStrings.adminAlpha,
+                  value: stats.alphaToday,
+                  color: AppColors.statusAlpha,
+                ),
               ],
             ),
           ],
@@ -77,8 +83,8 @@ class _Ring extends StatelessWidget {
     final color = percentage >= 80
         ? AppColors.statusHadir
         : percentage >= 50
-            ? AppColors.statusTelat
-            : AppColors.statusAlpha;
+        ? AppColors.statusTelat
+        : AppColors.statusAlpha;
     return SizedBox(
       height: 68,
       width: 68,
@@ -95,8 +101,10 @@ class _Ring extends StatelessWidget {
               valueColor: AlwaysStoppedAnimation(color),
             ),
           ),
-          Text('$percentage%',
-              style: AppTextStyles.bodyBold.copyWith(color: color)),
+          Text(
+            '$percentage%',
+            style: AppTextStyles.bodyBold.copyWith(color: color),
+          ),
         ],
       ),
     );
@@ -124,10 +132,12 @@ class _Tile extends StatelessWidget {
           children: [
             Text('$value', style: AppTextStyles.title.copyWith(color: color)),
             const SizedBox(height: 2),
-            Text(label,
-                style: AppTextStyles.caption,
-                textAlign: TextAlign.center,
-                maxLines: 1),
+            Text(
+              label,
+              style: AppTextStyles.caption,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+            ),
           ],
         ),
       ),

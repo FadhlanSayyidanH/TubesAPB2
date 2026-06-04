@@ -21,6 +21,12 @@ class OfficeEntity extends Equatable {
   });
 
   @override
-  List<Object?> get props =>
-      [id, name, latitude, longitude, radiusMeters, address];
+  List<Object?> get props => [
+    id,
+    name,
+    latitude,
+    longitude,
+    radiusMeters,
+    address,
+  ];
 }

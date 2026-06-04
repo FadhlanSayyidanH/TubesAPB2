@@ -39,7 +39,10 @@ class _OvalGuidePainter extends CustomPainter {
       ..addRect(Offset.zero & size)
       ..addOval(ovalRect)
       ..fillType = PathFillType.evenOdd;
-    canvas.drawPath(scrim, Paint()..color = Colors.black.withValues(alpha: 0.55));
+    canvas.drawPath(
+      scrim,
+      Paint()..color = Colors.black.withValues(alpha: 0.55),
+    );
 
     canvas.drawOval(
       ovalRect,

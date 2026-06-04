@@ -27,8 +27,9 @@ class ConnectivityCubit extends Cubit<bool> {
     } catch (_) {
       // Gagal cek awal — anggap online; perubahan nyata akan datang dari stream.
     }
-    _subscription =
-        _connectivity.onConnectivityChanged.listen((r) => emit(_isOnline(r)));
+    _subscription = _connectivity.onConnectivityChanged.listen(
+      (r) => emit(_isOnline(r)),
+    );
   }
 
   // connectivity_plus mengembalikan list (bisa multi-interface). Hanya 'none'

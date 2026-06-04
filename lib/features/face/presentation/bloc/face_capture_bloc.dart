@@ -18,9 +18,9 @@ class FaceCaptureBloc extends Bloc<FaceCaptureEvent, FaceCaptureState> {
   FaceCaptureBloc({
     required StartFaceCameraUseCase startCamera,
     required CaptureSelfieUseCase captureSelfie,
-  })  : _startCamera = startCamera,
-        _captureSelfie = captureSelfie,
-        super(const FaceCaptureState()) {
+  }) : _startCamera = startCamera,
+       _captureSelfie = captureSelfie,
+       super(const FaceCaptureState()) {
     on<FaceCameraRequested>(_onCameraRequested);
     on<FaceShutterPressed>(_onShutterPressed);
   }
@@ -31,23 +31,27 @@ class FaceCaptureBloc extends Bloc<FaceCaptureEvent, FaceCaptureState> {
   ) async {
     // Buang controller lama bila ini percobaan ulang setelah error.
     await state.controller?.dispose();
-    emit(state.copyWith(
-      status: FaceCaptureStatus.initializing,
-      clearController: true,
-    ));
+    emit(
+      state.copyWith(
+        status: FaceCaptureStatus.initializing,
+        clearController: true,
+      ),
+    );
 
     final result = await _startCamera();
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: FaceCaptureStatus.cameraError,
-        cameraErrorMessage: failure.message,
-        canOpenSettings:
-            failure is CameraFailure ? failure.openSettings : false,
-      )),
-      (controller) => emit(state.copyWith(
-        status: FaceCaptureStatus.ready,
-        controller: controller,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          status: FaceCaptureStatus.cameraError,
+          cameraErrorMessage: failure.message,
+          canOpenSettings: failure is CameraFailure
+              ? failure.openSettings
+              : false,
+        ),
+      ),
+      (controller) => emit(
+        state.copyWith(status: FaceCaptureStatus.ready, controller: controller),
+      ),
     );
   }
 
@@ -66,24 +70,31 @@ class FaceCaptureBloc extends Bloc<FaceCaptureEvent, FaceCaptureState> {
       (failure) {
         if (failure is FaceQualityFailure) {
           // Penolakan kualitas: bisa diulang. Tampilkan pesan lalu kembali siap.
-          emit(state.copyWith(
-            status: FaceCaptureStatus.ready,
-            rejectionMessage: failure.message,
-          ));
+          emit(
+            state.copyWith(
+              status: FaceCaptureStatus.ready,
+              rejectionMessage: failure.message,
+            ),
+          );
           emit(state.copyWith(status: FaceCaptureStatus.ready));
         } else {
-          emit(state.copyWith(
-            status: FaceCaptureStatus.cameraError,
-            cameraErrorMessage: failure.message,
-            canOpenSettings:
-                failure is CameraFailure ? failure.openSettings : false,
-          ));
+          emit(
+            state.copyWith(
+              status: FaceCaptureStatus.cameraError,
+              cameraErrorMessage: failure.message,
+              canOpenSettings: failure is CameraFailure
+                  ? failure.openSettings
+                  : false,
+            ),
+          );
         }
       },
-      (capture) => emit(state.copyWith(
-        status: FaceCaptureStatus.success,
-        capturedPath: capture.imagePath,
-      )),
+      (capture) => emit(
+        state.copyWith(
+          status: FaceCaptureStatus.success,
+          capturedPath: capture.imagePath,
+        ),
+      ),
     );
   }
 

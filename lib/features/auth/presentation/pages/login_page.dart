@@ -37,11 +37,13 @@ class _LoginPageState extends State<LoginPage> {
   void _submit() {
     FocusScope.of(context).unfocus();
     if (!_formKey.currentState!.validate()) return;
-    context.read<AuthBloc>().add(LoginRequested(
-          identifier: _identifierController.text,
-          password: _passwordController.text,
-          rememberMe: _rememberMe,
-        ));
+    context.read<AuthBloc>().add(
+      LoginRequested(
+        identifier: _identifierController.text,
+        password: _passwordController.text,
+        rememberMe: _rememberMe,
+      ),
+    );
   }
 
   /// Isi otomatis field identifier dari preferensi "Ingat saya" sekali saja,
@@ -65,18 +67,19 @@ class _LoginPageState extends State<LoginPage> {
               _applyRememberedIdentifier(state.rememberedIdentifier);
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
-                ..showSnackBar(SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: AppColors.error,
-                ));
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: AppColors.error,
+                  ),
+                );
             }
           },
           builder: (context, state) {
             if (state is Unauthenticated) {
               _applyRememberedIdentifier(state.rememberedIdentifier);
             }
-            final isSubmitting =
-                state is AuthLoading && state.isSubmitting;
+            final isSubmitting = state is AuthLoading && state.isSubmitting;
 
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -141,8 +144,11 @@ class _LoginPageState extends State<LoginPage> {
             color: AppColors.deepNavy,
             borderRadius: BorderRadius.circular(18),
           ),
-          child: const Icon(Icons.fingerprint,
-              color: AppColors.safetyOrange, size: 36),
+          child: const Icon(
+            Icons.fingerprint,
+            color: AppColors.safetyOrange,
+            size: 36,
+          ),
         ),
         const SizedBox(height: 24),
         Text(AppStrings.loginTitle, style: AppTextStyles.displayLarge),
@@ -162,9 +168,9 @@ class _LoginPageState extends State<LoginPage> {
             value: _rememberMe,
             activeColor: AppColors.safetyOrange,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6)),
-            onChanged: (value) =>
-                setState(() => _rememberMe = value ?? false),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            onChanged: (value) => setState(() => _rememberMe = value ?? false),
           ),
         ),
         const SizedBox(width: 8),

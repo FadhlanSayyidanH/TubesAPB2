@@ -6,8 +6,10 @@ import 'package:smart_attendance/core/utils/haversine.dart';
 void main() {
   group('calculateDistanceMeters', () {
     test('jarak titik ke dirinya sendiri = 0', () {
-      expect(calculateDistanceMeters(-6.2088, 106.8456, -6.2088, 106.8456),
-          closeTo(0, 0.01));
+      expect(
+        calculateDistanceMeters(-6.2088, 106.8456, -6.2088, 106.8456),
+        closeTo(0, 0.01),
+      );
     });
 
     test('~111 km per derajat lintang di ekuator', () {

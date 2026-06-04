@@ -65,21 +65,25 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
         office.latitude,
         office.longitude,
       );
-      return Right(LocationStatus(
-        userLatitude: position.latitude,
-        userLongitude: position.longitude,
-        distanceMeters: distance,
-        isWithinOfficeRadius: distance <= office.radiusMeters,
-      ));
+      return Right(
+        LocationStatus(
+          userLatitude: position.latitude,
+          userLongitude: position.longitude,
+          distanceMeters: distance,
+          isWithinOfficeRadius: distance <= office.radiusMeters,
+        ),
+      );
     } on LocationServiceDisabledException {
       return Left(LocationFailure(AppStrings.errLocationServiceOff));
     } on LocationPermissionDeniedException {
       return Left(LocationFailure(AppStrings.errLocationDenied));
     } on LocationPermissionPermanentlyDeniedException {
-      return Left(LocationFailure(
-        AppStrings.errLocationDeniedForever,
-        openSettings: true,
-      ));
+      return Left(
+        LocationFailure(
+          AppStrings.errLocationDeniedForever,
+          openSettings: true,
+        ),
+      );
     } on LocationTimeoutException {
       return Left(LocationFailure(AppStrings.errLocationTimeout));
     } catch (_) {
@@ -159,22 +163,24 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
         longitude: location.userLongitude,
         workDurationMinutes: duration,
       );
-      return Right(AttendanceModel(
-        id: today.id,
-        userId: today.userId,
-        userName: today.userName,
-        date: today.date,
-        clockIn: today.clockIn,
-        clockOut: now,
-        clockInLat: today.clockInLat,
-        clockInLon: today.clockInLon,
-        clockOutLat: location.userLatitude,
-        clockOutLon: location.userLongitude,
-        selfieUrl: today.selfieUrl,
-        status: today.status,
-        isInRadius: today.isInRadius,
-        workDurationMinutes: duration,
-      ));
+      return Right(
+        AttendanceModel(
+          id: today.id,
+          userId: today.userId,
+          userName: today.userName,
+          date: today.date,
+          clockIn: today.clockIn,
+          clockOut: now,
+          clockInLat: today.clockInLat,
+          clockInLon: today.clockInLon,
+          clockOutLat: location.userLatitude,
+          clockOutLon: location.userLongitude,
+          selfieUrl: today.selfieUrl,
+          status: today.status,
+          isInRadius: today.isInRadius,
+          workDurationMinutes: duration,
+        ),
+      );
     } catch (_) {
       return Left(ServerFailure(AppStrings.errUnknown));
     }
@@ -187,10 +193,14 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
     try {
       final all = await _attendanceRemote.getUserAttendance(userId);
       final (start, end) = _currentWeekRange();
-      final thisWeek = all
-          .where((a) => a.date.compareTo(start) >= 0 && a.date.compareTo(end) <= 0)
-          .toList()
-        ..sort((a, b) => b.clockIn.compareTo(a.clockIn));
+      final thisWeek =
+          all
+              .where(
+                (a) =>
+                    a.date.compareTo(start) >= 0 && a.date.compareTo(end) <= 0,
+              )
+              .toList()
+            ..sort((a, b) => b.clockIn.compareTo(a.clockIn));
       return Right(thisWeek);
     } on ServerException {
       return Left(NetworkFailure(AppStrings.errServerUnreachable));
@@ -253,8 +263,11 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   /// Rentang tanggal (yyyy-MM-dd) Senin–Minggu untuk minggu yang memuat hari ini.
   (String, String) _currentWeekRange() {
     final now = DateTime.now();
-    final monday = DateTime(now.year, now.month, now.day)
-        .subtract(Duration(days: now.weekday - 1));
+    final monday = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).subtract(Duration(days: now.weekday - 1));
     final sunday = monday.add(const Duration(days: 6));
     return (_dateKey.format(monday), _dateKey.format(sunday));
   }

@@ -1,4 +1,4 @@
-// Part of: Attendance - Test
+// Part of: Attendance - Presentation (test)
 //
 // Menguji logika lazy-render riwayat: getter `visible` & `hasMore` di
 // HistoryState, plus reset halaman saat ganti filter (Hari 13).
@@ -9,17 +9,17 @@ import 'package:smart_attendance/features/attendance/domain/entities/attendance_
 import 'package:smart_attendance/features/attendance/presentation/bloc/history_bloc.dart';
 
 AttendanceEntity _record(int i, AttendanceStatus status) => AttendanceEntity(
-      id: 'rec_$i',
-      userId: 'u1',
-      userName: 'Budi',
-      date: '2026-06-${(i % 28) + 1}',
-      clockIn: DateTime(2026, 6, 1).add(Duration(days: i)),
-      clockInLat: 0,
-      clockInLon: 0,
-      selfieUrl: '',
-      status: status,
-      isInRadius: true,
-    );
+  id: 'rec_$i',
+  userId: 'u1',
+  userName: 'Budi',
+  date: '2026-06-${(i % 28) + 1}',
+  clockIn: DateTime(2026, 6, 1).add(Duration(days: i)),
+  clockInLat: 0,
+  clockInLon: 0,
+  selfieUrl: '',
+  status: status,
+  isInRadius: true,
+);
 
 List<AttendanceEntity> _records(int n, {AttendanceStatus? status}) =>
     List.generate(n, (i) => _record(i, status ?? AttendanceStatus.hadir));
@@ -35,14 +35,17 @@ void main() {
       expect(state.hasMore, isTrue);
     });
 
-    test('data lebih sedikit dari satu halaman → tampil semua, hasMore false', () {
-      final state = HistoryState(
-        status: HistoryStatus.loaded,
-        records: _records(3),
-      );
-      expect(state.visible.length, 3);
-      expect(state.hasMore, isFalse);
-    });
+    test(
+      'data lebih sedikit dari satu halaman → tampil semua, hasMore false',
+      () {
+        final state = HistoryState(
+          status: HistoryStatus.loaded,
+          records: _records(3),
+        );
+        expect(state.visible.length, 3);
+        expect(state.hasMore, isFalse);
+      },
+    );
 
     test('menambah visibleCount memunculkan halaman berikutnya', () {
       final base = HistoryState(
@@ -56,15 +59,18 @@ void main() {
       expect(next.hasMore, isTrue);
     });
 
-    test('visibleCount melebihi jumlah data tidak melempar & hasMore false', () {
-      final state = HistoryState(
-        status: HistoryStatus.loaded,
-        records: _records(10),
-        visibleCount: 999,
-      );
-      expect(state.visible.length, 10);
-      expect(state.hasMore, isFalse);
-    });
+    test(
+      'visibleCount melebihi jumlah data tidak melempar & hasMore false',
+      () {
+        final state = HistoryState(
+          status: HistoryStatus.loaded,
+          records: _records(10),
+          visibleCount: 999,
+        );
+        expect(state.visible.length, 10);
+        expect(state.hasMore, isFalse);
+      },
+    );
 
     test('filter rentang tanggal (inklusif) menyaring berdasarkan clockIn', () {
       // _record(i) clockIn = 2026-06-01 + i hari.
@@ -93,8 +99,10 @@ void main() {
       );
       // telat & 2–4 Juni → 3.
       expect(state.filtered.length, 3);
-      expect(state.filtered.every((r) => r.status == AttendanceStatus.telat),
-          isTrue);
+      expect(
+        state.filtered.every((r) => r.status == AttendanceStatus.telat),
+        isTrue,
+      );
     });
 
     test('visible menghormati filter aktif', () {
@@ -108,8 +116,10 @@ void main() {
         filter: AttendanceStatus.telat,
       );
       expect(state.visible.length, 3);
-      expect(state.visible.every((r) => r.status == AttendanceStatus.telat),
-          isTrue);
+      expect(
+        state.visible.every((r) => r.status == AttendanceStatus.telat),
+        isTrue,
+      );
       expect(state.hasMore, isFalse);
     });
   });

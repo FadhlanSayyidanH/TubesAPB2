@@ -20,8 +20,11 @@ class ClockInDistributionChart extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 32),
         child: Center(
-          child: Text(AppStrings.adminClockInDistEmpty,
-              style: AppTextStyles.caption, textAlign: TextAlign.center),
+          child: Text(
+            AppStrings.adminClockInDistEmpty,
+            style: AppTextStyles.caption,
+            textAlign: TextAlign.center,
+          ),
         ),
       );
     }
@@ -42,10 +45,12 @@ class ClockInDistributionChart extends StatelessWidget {
           ),
           borderData: FlBorderData(show: false),
           titlesData: FlTitlesData(
-            topTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            rightTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
@@ -89,7 +94,10 @@ class ClockInDistributionChart extends StatelessWidget {
     if (hour < 0 || hour > 23 || hour % 3 != 0) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: 6),
-      child: Text(hour.toString().padLeft(2, '0'), style: AppTextStyles.caption),
+      child: Text(
+        hour.toString().padLeft(2, '0'),
+        style: AppTextStyles.caption,
+      ),
     );
   }
 }

@@ -53,14 +53,14 @@ class AdminStats extends Equatable {
 
   @override
   List<Object?> get props => [
-        totalEmployees,
-        clockedInToday,
-        onTimeToday,
-        lateToday,
-        onLeaveToday,
-        last7Days,
-        clockInHourCounts,
-      ];
+    totalEmployees,
+    clockedInToday,
+    onTimeToday,
+    lateToday,
+    onLeaveToday,
+    last7Days,
+    clockInHourCounts,
+  ];
 }
 
 /// Hitung [AdminStats] murni dari [records] (semua absensi 7 hari terakhir),
@@ -74,12 +74,15 @@ AdminStats computeAdminStats(
   final todayKey = dateFmt.format(now);
 
   final todayRecords = records.where((r) => r.date == todayKey).toList();
-  final onTime =
-      todayRecords.where((r) => r.status == AttendanceStatus.hadir).length;
-  final late =
-      todayRecords.where((r) => r.status == AttendanceStatus.telat).length;
-  final onLeave =
-      todayRecords.where((r) => r.status == AttendanceStatus.izin).length;
+  final onTime = todayRecords
+      .where((r) => r.status == AttendanceStatus.hadir)
+      .length;
+  final late = todayRecords
+      .where((r) => r.status == AttendanceStatus.telat)
+      .length;
+  final onLeave = todayRecords
+      .where((r) => r.status == AttendanceStatus.izin)
+      .length;
 
   final base = DateTime(now.year, now.month, now.day);
   final days = <DailyAttendance>[];
@@ -88,12 +91,15 @@ AdminStats computeAdminStats(
     final key = dateFmt.format(day);
     final dayRecords = records.where((r) => r.date == key);
     final present = dayRecords
-        .where((r) =>
-            r.status == AttendanceStatus.hadir ||
-            r.status == AttendanceStatus.telat)
+        .where(
+          (r) =>
+              r.status == AttendanceStatus.hadir ||
+              r.status == AttendanceStatus.telat,
+        )
         .length;
-    final dayLate =
-        dayRecords.where((r) => r.status == AttendanceStatus.telat).length;
+    final dayLate = dayRecords
+        .where((r) => r.status == AttendanceStatus.telat)
+        .length;
     days.add(DailyAttendance(day: day, present: present, late: dayLate));
   }
 

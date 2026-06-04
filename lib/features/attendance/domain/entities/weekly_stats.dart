@@ -22,11 +22,11 @@ class WeeklyStats extends Equatable {
   });
 
   const WeeklyStats.empty()
-      : hadir = 0,
-        telat = 0,
-        izin = 0,
-        alpha = 0,
-        workdaysElapsed = 0;
+    : hadir = 0,
+      telat = 0,
+      izin = 0,
+      alpha = 0,
+      workdaysElapsed = 0;
 
   int get present => hadir + telat;
 

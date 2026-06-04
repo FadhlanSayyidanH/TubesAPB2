@@ -42,7 +42,10 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
   String _docId(String userId, String date) => '${userId}_$date';
 
   @override
-  Future<AttendanceModel?> getTodayAttendance(String userId, String date) async {
+  Future<AttendanceModel?> getTodayAttendance(
+    String userId,
+    String date,
+  ) async {
     final doc = await _attendance.doc(_docId(userId, date)).get();
     if (!doc.exists) {
       if (doc.metadata.isFromCache) throw const ServerException();
@@ -76,8 +79,7 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
 
   @override
   Future<List<AttendanceModel>> getUserAttendance(String userId) async {
-    final snapshot =
-        await _attendance.where('userId', isEqualTo: userId).get();
+    final snapshot = await _attendance.where('userId', isEqualTo: userId).get();
     if (snapshot.docs.isEmpty && snapshot.metadata.isFromCache) {
       throw const ServerException();
     }

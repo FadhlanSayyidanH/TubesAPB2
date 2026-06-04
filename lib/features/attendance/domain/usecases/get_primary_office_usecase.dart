@@ -11,5 +11,6 @@ class GetPrimaryOfficeUseCase {
 
   GetPrimaryOfficeUseCase(this._repository);
 
-  Future<Either<Failure, OfficeEntity>> call() => _repository.getPrimaryOffice();
+  Future<Either<Failure, OfficeEntity>> call() =>
+      _repository.getPrimaryOffice();
 }

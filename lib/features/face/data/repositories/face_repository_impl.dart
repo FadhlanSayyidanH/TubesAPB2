@@ -26,10 +26,12 @@ class FaceRepositoryImpl implements FaceRepository {
     } on CameraPermissionDeniedException {
       return Left(CameraFailure(AppStrings.errCameraPermissionDenied));
     } on CameraPermissionPermanentlyDeniedException {
-      return Left(CameraFailure(
-        AppStrings.errCameraPermissionForever,
-        openSettings: true,
-      ));
+      return Left(
+        CameraFailure(
+          AppStrings.errCameraPermissionForever,
+          openSettings: true,
+        ),
+      );
     } on CameraUnavailableException {
       return Left(CameraFailure(AppStrings.errCameraUnavailable));
     } catch (_) {

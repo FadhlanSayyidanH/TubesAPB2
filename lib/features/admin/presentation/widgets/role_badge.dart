@@ -16,8 +16,9 @@ class RoleBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final isAdmin = role == UserRole.admin;
     final color = isAdmin ? AppColors.safetyOrange : AppColors.deepNavy;
-    final label =
-        isAdmin ? AppStrings.profileRoleAdmin : AppStrings.profileRoleEmployee;
+    final label = isAdmin
+        ? AppStrings.profileRoleAdmin
+        : AppStrings.profileRoleEmployee;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(

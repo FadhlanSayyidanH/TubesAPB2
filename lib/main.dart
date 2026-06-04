@@ -43,7 +43,8 @@ class _SmartAttendanceAppState extends State<SmartAttendanceApp> {
   late final AuthBloc _authBloc;
   late final AppRouter _appRouter;
   final PushTokenService _pushToken = sl<PushTokenService>();
-  final LocalNotificationService _notifications = sl<LocalNotificationService>();
+  final LocalNotificationService _notifications =
+      sl<LocalNotificationService>();
 
   @override
   void initState() {

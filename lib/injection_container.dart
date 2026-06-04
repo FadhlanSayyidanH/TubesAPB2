@@ -73,7 +73,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   sl.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
   sl.registerLazySingleton<Connectivity>(() => Connectivity());
-  sl.registerLazySingleton<GeolocatorPlatform>(() => GeolocatorPlatform.instance);
+  sl.registerLazySingleton<GeolocatorPlatform>(
+    () => GeolocatorPlatform.instance,
+  );
   sl.registerLazySingleton<FirebaseMessaging>(() => FirebaseMessaging.instance);
   sl.registerLazySingleton<FlutterLocalNotificationsPlugin>(
     () => FlutterLocalNotificationsPlugin(),
@@ -88,7 +90,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<LocalNotificationService>(
     () => LocalNotificationService(sl()),
   );
-  sl.registerLazySingleton<PushTokenService>(() => PushTokenService(sl(), sl()));
+  sl.registerLazySingleton<PushTokenService>(
+    () => PushTokenService(sl(), sl()),
+  );
   sl.registerLazySingleton<CsvExportService>(() => CsvExportService());
 
   // Auth - data sources

@@ -62,10 +62,16 @@ class _LeaveViewState extends State<_LeaveView> {
     final picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
-      firstDate: DateTime(now.year, now.month, now.day)
-          .subtract(const Duration(days: 7)),
-      lastDate: DateTime(now.year, now.month, now.day)
-          .add(const Duration(days: 60)),
+      firstDate: DateTime(
+        now.year,
+        now.month,
+        now.day,
+      ).subtract(const Duration(days: 7)),
+      lastDate: DateTime(
+        now.year,
+        now.month,
+        now.day,
+      ).add(const Duration(days: 60)),
       helpText: AppStrings.leaveDateLabel,
     );
     if (picked != null) setState(() => _selectedDate = picked);
@@ -74,11 +80,13 @@ class _LeaveViewState extends State<_LeaveView> {
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
-    context.read<LeaveBloc>().add(LeaveSubmitted(
-          user: widget.user,
-          date: _selectedDate,
-          reason: _reasonController.text,
-        ));
+    context.read<LeaveBloc>().add(
+      LeaveSubmitted(
+        user: widget.user,
+        date: _selectedDate,
+        reason: _reasonController.text,
+      ),
+    );
   }
 
   void _onState(BuildContext context, LeaveState state) {
@@ -86,18 +94,22 @@ class _LeaveViewState extends State<_LeaveView> {
     if (state.status == LeaveStatus.success) {
       messenger
         ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(
-          content: Text(AppStrings.leaveSuccess),
-          backgroundColor: AppColors.success,
-        ));
+        ..showSnackBar(
+          SnackBar(
+            content: Text(AppStrings.leaveSuccess),
+            backgroundColor: AppColors.success,
+          ),
+        );
       context.pop();
     } else if (state.status == LeaveStatus.error) {
       messenger
         ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(
-          content: Text(state.message ?? AppStrings.errUnknown),
-          backgroundColor: AppColors.error,
-        ));
+        ..showSnackBar(
+          SnackBar(
+            content: Text(state.message ?? AppStrings.errUnknown),
+            backgroundColor: AppColors.error,
+          ),
+        );
     }
   }
 
@@ -119,15 +131,20 @@ class _LeaveViewState extends State<_LeaveView> {
                 children: [
                   Text(AppStrings.leaveSubtitle, style: AppTextStyles.subtitle),
                   const SizedBox(height: 24),
-                  Text(AppStrings.leaveDateLabel, style: AppTextStyles.bodyBold),
+                  Text(
+                    AppStrings.leaveDateLabel,
+                    style: AppTextStyles.bodyBold,
+                  ),
                   const SizedBox(height: 8),
                   _DateField(
                     label: formatTanggalLengkap(_selectedDate),
                     onTap: isSubmitting ? null : _pickDate,
                   ),
                   const SizedBox(height: 20),
-                  Text(AppStrings.leaveReasonLabel,
-                      style: AppTextStyles.bodyBold),
+                  Text(
+                    AppStrings.leaveReasonLabel,
+                    style: AppTextStyles.bodyBold,
+                  ),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _reasonController,
@@ -141,7 +158,9 @@ class _LeaveViewState extends State<_LeaveView> {
                     validator: (value) {
                       final text = value?.trim() ?? '';
                       if (text.isEmpty) return AppStrings.leaveReasonRequired;
-                      if (text.length < 5) return AppStrings.leaveReasonTooShort;
+                      if (text.length < 5) {
+                        return AppStrings.leaveReasonTooShort;
+                      }
                       return null;
                     },
                   ),
@@ -184,12 +203,18 @@ class _DateField extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(Icons.calendar_today_outlined,
-                size: 18, color: AppColors.textSecondary),
+            Icon(
+              Icons.calendar_today_outlined,
+              size: 18,
+              color: AppColors.textSecondary,
+            ),
             const SizedBox(width: 12),
             Expanded(child: Text(label, style: AppTextStyles.body)),
-            Icon(Icons.edit_calendar_outlined,
-                size: 18, color: AppColors.textHint),
+            Icon(
+              Icons.edit_calendar_outlined,
+              size: 18,
+              color: AppColors.textHint,
+            ),
           ],
         ),
       ),

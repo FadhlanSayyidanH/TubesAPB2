@@ -27,12 +27,10 @@ class EmployeeDetailPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              EmployeeDetailBloc(updateRole: sl(), user: user),
+          create: (_) => EmployeeDetailBloc(updateRole: sl(), user: user),
         ),
         BlocProvider(
-          create: (_) =>
-              sl<HistoryBloc>()..add(HistoryLoadRequested(user.uid)),
+          create: (_) => sl<HistoryBloc>()..add(HistoryLoadRequested(user.uid)),
         ),
       ],
       child: const _EmployeeDetailView(),
@@ -68,9 +66,9 @@ class _EmployeeDetailView extends StatelessWidget {
       ),
     );
     if (confirmed == true && context.mounted) {
-      context
-          .read<EmployeeDetailBloc>()
-          .add(const EmployeeRoleToggleRequested());
+      context.read<EmployeeDetailBloc>().add(
+        const EmployeeRoleToggleRequested(),
+      );
     }
   }
 
@@ -78,19 +76,25 @@ class _EmployeeDetailView extends StatelessWidget {
     if (state.status == RoleChangeStatus.success) {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(
-          content: Text(state.user.isAdmin
-              ? AppStrings.roleChangedToAdmin
-              : AppStrings.roleChangedToEmployee),
-          backgroundColor: AppColors.success,
-        ));
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              state.user.isAdmin
+                  ? AppStrings.roleChangedToAdmin
+                  : AppStrings.roleChangedToEmployee,
+            ),
+            backgroundColor: AppColors.success,
+          ),
+        );
     } else if (state.status == RoleChangeStatus.error) {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(
-          content: Text(state.message ?? AppStrings.errUnknown),
-          backgroundColor: AppColors.error,
-        ));
+        ..showSnackBar(
+          SnackBar(
+            content: Text(state.message ?? AppStrings.errUnknown),
+            backgroundColor: AppColors.error,
+          ),
+        );
     }
   }
 
@@ -113,8 +117,11 @@ class _EmployeeDetailView extends StatelessWidget {
               Center(child: UserAvatar(user: user, radius: 44)),
               const SizedBox(height: 12),
               Center(
-                child: Text(user.name,
-                    style: AppTextStyles.headline, textAlign: TextAlign.center),
+                child: Text(
+                  user.name,
+                  style: AppTextStyles.headline,
+                  textAlign: TextAlign.center,
+                ),
               ),
               const SizedBox(height: 6),
               Center(child: RoleBadge(role: user.role)),
@@ -128,7 +135,10 @@ class _EmployeeDetailView extends StatelessWidget {
                 onPressed: () => _confirmRoleChange(context, user),
               ),
               const SizedBox(height: 24),
-              Text(AppStrings.employeeHistorySection, style: AppTextStyles.title),
+              Text(
+                AppStrings.employeeHistorySection,
+                style: AppTextStyles.title,
+              ),
               const SizedBox(height: 8),
               const _HistoryDateFilter(),
               const SizedBox(height: 4),
@@ -157,11 +167,12 @@ class _InfoCard extends StatelessWidget {
             _row(AppStrings.labelNik, user.nik),
             _row(AppStrings.labelDepartment, user.department),
             _row(
-                AppStrings.labelRole,
-                user.isAdmin
-                    ? AppStrings.profileRoleAdmin
-                    : AppStrings.profileRoleEmployee,
-                isLast: true),
+              AppStrings.labelRole,
+              user.isAdmin
+                  ? AppStrings.profileRoleAdmin
+                  : AppStrings.profileRoleEmployee,
+              isLast: true,
+            ),
           ],
         ),
       ),
@@ -175,11 +186,14 @@ class _InfoCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-              width: 100,
-              child: Text(label, style: AppTextStyles.caption)),
+            width: 100,
+            child: Text(label, style: AppTextStyles.caption),
+          ),
           Expanded(
-            child: Text(value.isEmpty ? '-' : value,
-                style: AppTextStyles.bodyBold),
+            child: Text(
+              value.isEmpty ? '-' : value,
+              style: AppTextStyles.bodyBold,
+            ),
           ),
         ],
       ),
@@ -214,8 +228,10 @@ class _RoleAction extends StatelessWidget {
             Icon(Icons.info_outline, size: 20, color: AppColors.textHint),
             const SizedBox(width: 8),
             Expanded(
-              child: Text(AppStrings.roleChangeSelfBlocked,
-                  style: AppTextStyles.caption),
+              child: Text(
+                AppStrings.roleChangeSelfBlocked,
+                style: AppTextStyles.caption,
+              ),
             ),
           ],
         ),
@@ -249,9 +265,9 @@ class _HistoryDateFilter extends StatelessWidget {
       helpText: AppStrings.historyDateFilterButton,
     );
     if (picked != null && context.mounted) {
-      context
-          .read<HistoryBloc>()
-          .add(HistoryDateRangeChanged(picked.start, picked.end));
+      context.read<HistoryBloc>().add(
+        HistoryDateRangeChanged(picked.start, picked.end),
+      );
     }
   }
 
@@ -267,8 +283,7 @@ class _HistoryDateFilter extends StatelessWidget {
             : AppStrings.historyDateFilterAll;
         return Row(
           children: [
-            Icon(Icons.date_range,
-                size: 18, color: AppColors.textSecondary),
+            Icon(Icons.date_range, size: 18, color: AppColors.textSecondary),
             const SizedBox(width: 8),
             Expanded(child: Text(label, style: AppTextStyles.caption)),
             if (hasRange)
@@ -276,9 +291,9 @@ class _HistoryDateFilter extends StatelessWidget {
                 tooltip: AppStrings.cancel,
                 visualDensity: VisualDensity.compact,
                 icon: const Icon(Icons.clear, size: 18),
-                onPressed: () => context
-                    .read<HistoryBloc>()
-                    .add(const HistoryDateRangeChanged(null, null)),
+                onPressed: () => context.read<HistoryBloc>().add(
+                  const HistoryDateRangeChanged(null, null),
+                ),
               ),
             TextButton.icon(
               onPressed: () => _pick(context),
@@ -307,15 +322,18 @@ class _EmployeeHistory extends StatelessWidget {
             );
           case HistoryStatus.error:
             return _historyMessage(
-                Icons.cloud_off, state.message ?? AppStrings.errUnknown);
+              Icons.cloud_off,
+              state.message ?? AppStrings.errUnknown,
+            );
           case HistoryStatus.loaded:
             final items = state.filtered;
             if (items.isEmpty) {
               return _historyMessage(
-                  Icons.event_busy_outlined,
-                  state.hasDateFilter
-                      ? AppStrings.historyDateFilterEmpty
-                      : AppStrings.employeeHistoryEmpty);
+                Icons.event_busy_outlined,
+                state.hasDateFilter
+                    ? AppStrings.historyDateFilterEmpty
+                    : AppStrings.employeeHistoryEmpty,
+              );
             }
             return Column(
               children: [

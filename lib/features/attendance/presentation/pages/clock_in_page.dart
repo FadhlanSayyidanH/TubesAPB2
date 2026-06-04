@@ -34,8 +34,7 @@ class ClockInPage extends StatelessWidget {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     return BlocProvider(
-      create: (_) =>
-          sl<ClockInBloc>()..add(ClockInStarted(authState.user)),
+      create: (_) => sl<ClockInBloc>()..add(ClockInStarted(authState.user)),
       child: const _ClockInView(),
     );
   }
@@ -49,18 +48,21 @@ class _ClockInView extends StatelessWidget {
       case ClockInAction.clockedIn:
         // Notifikasi lokal konfirmasi absen masuk (di samping dialog sukses).
         final record = state.todayAttendance!;
-        sl<LocalNotificationService>()
-            .showClockInSuccess(DateFormat('HH:mm').format(record.clockIn));
+        sl<LocalNotificationService>().showClockInSuccess(
+          DateFormat('HH:mm').format(record.clockIn),
+        );
         _showSuccessDialog(context, record);
       case ClockInAction.clockedOut:
         _showSuccessDialog(context, state.todayAttendance!);
       case ClockInAction.failed:
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(
-            content: Text(state.message ?? AppStrings.errUnknown),
-            backgroundColor: AppColors.error,
-          ));
+          ..showSnackBar(
+            SnackBar(
+              content: Text(state.message ?? AppStrings.errUnknown),
+              backgroundColor: AppColors.error,
+            ),
+          );
       case ClockInAction.idle:
       case ClockInAction.submitting:
         break;
@@ -99,9 +101,9 @@ class _ClockInView extends StatelessWidget {
                 icon: Icons.location_off_outlined,
                 message: state.message ?? AppStrings.errUnknown,
                 actionLabel: AppStrings.tryAgain,
-                onAction: () => context
-                    .read<ClockInBloc>()
-                    .add(ClockInStarted(state.user!)),
+                onAction: () => context.read<ClockInBloc>().add(
+                  ClockInStarted(state.user!),
+                ),
               );
             case ClockInStatus.locationError:
               return _LocationErrorState(state: state);
@@ -160,9 +162,9 @@ class _MapAndActions extends StatelessWidget {
               if (!state.alreadyClockedOut) ...[
                 const SizedBox(height: 8),
                 TextButton.icon(
-                  onPressed: () => context
-                      .read<ClockInBloc>()
-                      .add(const LocationRefreshRequested(isManual: true)),
+                  onPressed: () => context.read<ClockInBloc>().add(
+                    const LocationRefreshRequested(isManual: true),
+                  ),
                   icon: const Icon(Icons.my_location, size: 18),
                   label: Text(AppStrings.refreshLocation),
                 ),
@@ -206,12 +208,15 @@ class _ActionButton extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
               AppStrings.alreadyClockedInAt(
-                  timeFmt.format(state.todayAttendance!.clockIn)),
+                timeFmt.format(state.todayAttendance!.clockIn),
+              ),
               style: AppTextStyles.subtitle,
             ),
           ),
         PrimaryButton(
-          label: clockingOut ? AppStrings.clockOutButton : AppStrings.clockInTitle,
+          label: clockingOut
+              ? AppStrings.clockOutButton
+              : AppStrings.clockInTitle,
           icon: clockingOut ? Icons.logout : Icons.face_retouching_natural,
           isLoading: submitting,
           onPressed: state.canSubmit ? () => _onPressed(context) : null,
@@ -242,11 +247,15 @@ class _CompletedBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(AppStrings.attendanceCompleteTitle,
-                    style: AppTextStyles.bodyBold),
                 Text(
-                  AppStrings.historyTileTimes(timeFmt.format(record.clockIn),
-                      timeFmt.format(record.clockOut!)),
+                  AppStrings.attendanceCompleteTitle,
+                  style: AppTextStyles.bodyBold,
+                ),
+                Text(
+                  AppStrings.historyTileTimes(
+                    timeFmt.format(record.clockIn),
+                    timeFmt.format(record.clockOut!),
+                  ),
                   style: AppTextStyles.caption,
                 ),
               ],
@@ -318,14 +327,21 @@ class _ClockSuccessDialogState extends State<_ClockSuccessDialog> {
           Text(record.userName, style: AppTextStyles.bodyBold),
           const SizedBox(height: 4),
           if (isClockOut) ...[
-            Text(AppStrings.clockOutAtLabel(timeFmt.format(record.clockOut!)),
-                style: AppTextStyles.body),
-            Text(AppStrings.workDurationValue(
-                    _durationText(record.workDurationMinutes)),
-                style: AppTextStyles.subtitle),
+            Text(
+              AppStrings.clockOutAtLabel(timeFmt.format(record.clockOut!)),
+              style: AppTextStyles.body,
+            ),
+            Text(
+              AppStrings.workDurationValue(
+                _durationText(record.workDurationMinutes),
+              ),
+              style: AppTextStyles.subtitle,
+            ),
           ] else ...[
-            Text(AppStrings.clockInAtLabel(timeFmt.format(record.clockIn)),
-                style: AppTextStyles.body),
+            Text(
+              AppStrings.clockInAtLabel(timeFmt.format(record.clockIn)),
+              style: AppTextStyles.body,
+            ),
             const SizedBox(height: 8),
             AttendanceStatusBadge(status: record.status),
           ],
@@ -353,8 +369,9 @@ class _LocationErrorState extends StatelessWidget {
     return _ErrorState(
       icon: Icons.gps_off,
       message: state.message ?? AppStrings.errUnknown,
-      actionLabel:
-          showOpenSettings ? AppStrings.openSettings : AppStrings.enableGps,
+      actionLabel: showOpenSettings
+          ? AppStrings.openSettings
+          : AppStrings.enableGps,
       onAction: () async {
         if (showOpenSettings) {
           await Geolocator.openAppSettings();
@@ -363,9 +380,9 @@ class _LocationErrorState extends StatelessWidget {
         }
       },
       secondaryLabel: AppStrings.tryAgain,
-      onSecondary: () => context
-          .read<ClockInBloc>()
-          .add(const LocationRefreshRequested(isManual: true)),
+      onSecondary: () => context.read<ClockInBloc>().add(
+        const LocationRefreshRequested(isManual: true),
+      ),
     );
   }
 }
@@ -428,8 +445,11 @@ class _ErrorState extends StatelessWidget {
           children: [
             Icon(icon, size: 64, color: AppColors.outsideRadius),
             const SizedBox(height: 16),
-            Text(message,
-                style: AppTextStyles.body, textAlign: TextAlign.center),
+            Text(
+              message,
+              style: AppTextStyles.body,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,

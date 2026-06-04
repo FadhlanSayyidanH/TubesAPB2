@@ -9,7 +9,10 @@ import '../models/user_model.dart';
 /// Akses langsung ke Firebase Auth & Firestore. Hanya melempar Exception mentah;
 /// penerjemahan ke Failure terjadi di repository.
 abstract class AuthRemoteDataSource {
-  Future<UserModel> login({required String identifier, required String password});
+  Future<UserModel> login({
+    required String identifier,
+    required String password,
+  });
   Future<void> logout();
   Future<UserModel?> getCurrentUser();
   Future<void> sendPasswordResetEmail(String email);
@@ -66,8 +69,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   Future<String> _resolveEmailFromNik(String nik) async {
-    final snapshot =
-        await _users.where('nik', isEqualTo: nik).limit(1).get();
+    final snapshot = await _users.where('nik', isEqualTo: nik).limit(1).get();
     if (snapshot.docs.isEmpty) throw const NikNotFoundException();
     final email = snapshot.docs.first.data()['email'] as String?;
     if (email == null || email.isEmpty) throw const NikNotFoundException();

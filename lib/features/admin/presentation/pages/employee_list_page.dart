@@ -20,8 +20,7 @@ class EmployeeListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          sl<EmployeeListBloc>()..add(const EmployeeListRequested()),
+      create: (_) => sl<EmployeeListBloc>()..add(const EmployeeListRequested()),
       child: const _EmployeeListView(),
     );
   }
@@ -51,9 +50,9 @@ class _EmployeeListView extends StatelessWidget {
             case EmployeeListStatus.error:
               return _ErrorState(
                 message: state.message ?? AppStrings.errUnknown,
-                onRetry: () => context
-                    .read<EmployeeListBloc>()
-                    .add(const EmployeeListRequested()),
+                onRetry: () => context.read<EmployeeListBloc>().add(
+                  const EmployeeListRequested(),
+                ),
               );
             case EmployeeListStatus.loaded:
               if (state.users.isEmpty) {
@@ -126,9 +125,9 @@ class _SearchFieldState extends State<_SearchField> {
                   icon: const Icon(Icons.clear),
                   onPressed: () {
                     _controller.clear();
-                    context
-                        .read<EmployeeListBloc>()
-                        .add(const EmployeeSearchChanged(''));
+                    context.read<EmployeeListBloc>().add(
+                      const EmployeeSearchChanged(''),
+                    );
                     setState(() {});
                   },
                 ),
@@ -154,8 +153,11 @@ class _NoSearchResult extends StatelessWidget {
           children: [
             Icon(Icons.search_off, size: 56, color: AppColors.divider),
             const SizedBox(height: 12),
-            Text(AppStrings.employeeSearchEmpty,
-                style: AppTextStyles.body, textAlign: TextAlign.center),
+            Text(
+              AppStrings.employeeSearchEmpty,
+              style: AppTextStyles.body,
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
@@ -185,15 +187,19 @@ class _EmployeeTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(user.name,
-                        style: AppTextStyles.bodyBold,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis),
+                    Text(
+                      user.name,
+                      style: AppTextStyles.bodyBold,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 2),
-                    Text(AppStrings.departmentNik(user.department, user.nik),
-                        style: AppTextStyles.caption,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis),
+                    Text(
+                      AppStrings.departmentNik(user.department, user.nik),
+                      style: AppTextStyles.caption,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 6),
                     RoleBadge(role: user.role),
                   ],
@@ -251,11 +257,18 @@ class _ErrorState extends StatelessWidget {
           children: [
             const Icon(Icons.cloud_off, size: 64, color: AppColors.error),
             const SizedBox(height: 16),
-            Text(message, style: AppTextStyles.body, textAlign: TextAlign.center),
+            Text(
+              message,
+              style: AppTextStyles.body,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
-              child: PrimaryButton(label: AppStrings.tryAgain, onPressed: onRetry),
+              child: PrimaryButton(
+                label: AppStrings.tryAgain,
+                onPressed: onRetry,
+              ),
             ),
           ],
         ),

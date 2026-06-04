@@ -27,8 +27,11 @@ WeeklyStats computeWeeklyStats(
   DateTime now,
 ) {
   final dateFmt = DateFormat('yyyy-MM-dd');
-  final monday = DateTime(now.year, now.month, now.day)
-      .subtract(Duration(days: now.weekday - 1));
+  final monday = DateTime(
+    now.year,
+    now.month,
+    now.day,
+  ).subtract(Duration(days: now.weekday - 1));
   final statusByDate = {for (final r in weekRecords) r.date: r.status};
 
   var hadir = 0, telat = 0, izin = 0, alpha = 0, workdays = 0;

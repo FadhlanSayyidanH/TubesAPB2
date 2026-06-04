@@ -12,21 +12,20 @@ AttendanceEntity _rec(
   DateTime? clockOut,
   int? durasi,
   bool inRadius = true,
-}) =>
-    AttendanceEntity(
-      id: '${userId}_$date',
-      userId: userId,
-      userName: name,
-      date: date,
-      clockIn: DateTime.parse('$date 08:05:00'),
-      clockOut: clockOut,
-      clockInLat: -6.2088,
-      clockInLon: 106.8456,
-      selfieUrl: '',
-      status: status,
-      isInRadius: inRadius,
-      workDurationMinutes: durasi,
-    );
+}) => AttendanceEntity(
+  id: '${userId}_$date',
+  userId: userId,
+  userName: name,
+  date: date,
+  clockIn: DateTime.parse('$date 08:05:00'),
+  clockOut: clockOut,
+  clockInLat: -6.2088,
+  clockInLon: 106.8456,
+  selfieUrl: '',
+  status: status,
+  isInRadius: inRadius,
+  workDurationMinutes: durasi,
+);
 
 void main() {
   group('buildAttendanceCsvRows', () {
@@ -54,18 +53,16 @@ void main() {
       expect(rows[1][0], 'Budi');
       expect(rows[1][1], '3273012501900001');
 
-      final rowsNoNik = buildAttendanceCsvRows(
-        [_rec('u2', 'Sari', '2026-06-04', AttendanceStatus.hadir)],
-        const {},
-      );
+      final rowsNoNik = buildAttendanceCsvRows([
+        _rec('u2', 'Sari', '2026-06-04', AttendanceStatus.hadir),
+      ], const {});
       expect(rowsNoNik[1][1], '-');
     });
 
     test('jam pulang & durasi "-" saat belum absen pulang', () {
-      final rows = buildAttendanceCsvRows(
-        [_rec('u1', 'Budi', '2026-06-04', AttendanceStatus.telat)],
-        const {},
-      );
+      final rows = buildAttendanceCsvRows([
+        _rec('u1', 'Budi', '2026-06-04', AttendanceStatus.telat),
+      ], const {});
       expect(rows[1][3], '08:05'); // jam masuk
       expect(rows[1][4], '-'); // jam pulang
       expect(rows[1][5], 'Telat');
@@ -73,15 +70,17 @@ void main() {
     });
 
     test('lokasi & koordinat terformat', () {
-      final rows = buildAttendanceCsvRows(
-        [
-          _rec('u1', 'Budi', '2026-06-04', AttendanceStatus.hadir,
-              clockOut: DateTime.parse('2026-06-04 17:00:00'),
-              durasi: 535,
-              inRadius: false),
-        ],
-        const {},
-      );
+      final rows = buildAttendanceCsvRows([
+        _rec(
+          'u1',
+          'Budi',
+          '2026-06-04',
+          AttendanceStatus.hadir,
+          clockOut: DateTime.parse('2026-06-04 17:00:00'),
+          durasi: 535,
+          inRadius: false,
+        ),
+      ], const {});
       expect(rows[1][4], '17:00');
       expect(rows[1][6], '535');
       expect(rows[1][7], 'Luar radius');

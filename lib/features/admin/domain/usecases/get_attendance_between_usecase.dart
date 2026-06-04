@@ -14,6 +14,5 @@ class GetAttendanceBetweenUseCase {
   Future<Either<Failure, List<AttendanceEntity>>> call({
     required String fromDate,
     required String toDate,
-  }) =>
-      _repository.getAttendanceBetween(fromDate, toDate);
+  }) => _repository.getAttendanceBetween(fromDate, toDate);
 }

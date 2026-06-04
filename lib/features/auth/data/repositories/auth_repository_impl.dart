@@ -27,7 +27,10 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(NetworkFailure(AppStrings.errNoInternet));
     }
     try {
-      final user = await _remote.login(identifier: identifier, password: password);
+      final user = await _remote.login(
+        identifier: identifier,
+        password: password,
+      );
       return Right(user);
     } on NikNotFoundException {
       return Left(AuthFailure(AppStrings.errNikNotFound));

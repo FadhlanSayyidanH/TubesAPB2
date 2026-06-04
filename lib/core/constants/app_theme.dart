@@ -15,17 +15,21 @@ class AppTheme {
 
   static ThemeData _build({required bool dark}) {
     final surface = dark ? AppColors.surfaceDark : AppColors.surfaceLight;
-    final background =
-        dark ? AppColors.backgroundDark : AppColors.backgroundLight;
-    final onSurface =
-        dark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight;
+    final background = dark
+        ? AppColors.backgroundDark
+        : AppColors.backgroundLight;
+    final onSurface = dark
+        ? AppColors.textPrimaryDark
+        : AppColors.textPrimaryLight;
     final inputFill = dark ? AppColors.inputFillDark : AppColors.inputFillLight;
     final divider = dark ? AppColors.dividerDark : AppColors.dividerLight;
-    final cardShadow =
-        dark ? AppColors.cardShadowDark : AppColors.cardShadowLight;
+    final cardShadow = dark
+        ? AppColors.cardShadowDark
+        : AppColors.cardShadowLight;
     final textHint = dark ? AppColors.textHintDark : AppColors.textHintLight;
-    final textSecondary =
-        dark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+    final textSecondary = dark
+        ? AppColors.textSecondaryDark
+        : AppColors.textSecondaryLight;
 
     // AppBar tetap Deep Navy di mode terang; di mode gelap memakai permukaan
     // gelap agar tidak terlalu kontras.
@@ -61,7 +65,9 @@ class AppTheme {
         foregroundColor: AppColors.textOnDark,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle: AppTextStyles.title.copyWith(color: AppColors.textOnDark),
+        titleTextStyle: AppTextStyles.title.copyWith(
+          color: AppColors.textOnDark,
+        ),
       ),
       cardTheme: CardThemeData(
         color: surface,
@@ -75,7 +81,10 @@ class AppTheme {
         fillColor: inputFill,
         hintStyle: AppTextStyles.body.copyWith(color: textHint),
         labelStyle: AppTextStyles.body.copyWith(color: textSecondary),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -86,7 +95,10 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.safetyOrange, width: 1.6),
+          borderSide: const BorderSide(
+            color: AppColors.safetyOrange,
+            width: 1.6,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -102,10 +114,14 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.safetyOrange,
           foregroundColor: AppColors.textOnDark,
-          disabledBackgroundColor: AppColors.safetyOrange.withValues(alpha: 0.5),
+          disabledBackgroundColor: AppColors.safetyOrange.withValues(
+            alpha: 0.5,
+          ),
           minimumSize: const Size.fromHeight(52),
           elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           textStyle: AppTextStyles.button,
         ),
       ),

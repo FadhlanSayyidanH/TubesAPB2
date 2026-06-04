@@ -35,7 +35,9 @@ class SplashPage extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               AppStrings.appName,
-              style: AppTextStyles.headline.copyWith(color: AppColors.textOnDark),
+              style: AppTextStyles.headline.copyWith(
+                color: AppColors.textOnDark,
+              ),
             ),
             const SizedBox(height: 8),
             Text(

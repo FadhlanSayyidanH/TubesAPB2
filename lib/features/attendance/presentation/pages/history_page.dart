@@ -51,9 +51,9 @@ class _HistoryView extends StatelessWidget {
                   case HistoryStatus.error:
                     return _ErrorState(
                       message: state.message ?? AppStrings.errUnknown,
-                      onRetry: () => context
-                          .read<HistoryBloc>()
-                          .add(HistoryLoadRequested(userId)),
+                      onRetry: () => context.read<HistoryBloc>().add(
+                        HistoryLoadRequested(userId),
+                      ),
                     );
                   case HistoryStatus.loaded:
                     if (state.filtered.isEmpty) {
@@ -185,14 +185,19 @@ class _EmptyState extends StatelessWidget {
             Icon(Icons.event_busy_outlined, size: 64, color: AppColors.divider),
             const SizedBox(height: 16),
             Text(
-              isFiltered ? AppStrings.historyEmptyFiltered : AppStrings.historyEmpty,
+              isFiltered
+                  ? AppStrings.historyEmptyFiltered
+                  : AppStrings.historyEmpty,
               style: AppTextStyles.bodyBold,
               textAlign: TextAlign.center,
             ),
             if (!isFiltered) ...[
               const SizedBox(height: 4),
-              Text(AppStrings.historyEmptyHint,
-                  style: AppTextStyles.caption, textAlign: TextAlign.center),
+              Text(
+                AppStrings.historyEmptyHint,
+                style: AppTextStyles.caption,
+                textAlign: TextAlign.center,
+              ),
             ],
           ],
         ),
@@ -216,11 +221,18 @@ class _ErrorState extends StatelessWidget {
           children: [
             const Icon(Icons.cloud_off, size: 64, color: AppColors.error),
             const SizedBox(height: 16),
-            Text(message, style: AppTextStyles.body, textAlign: TextAlign.center),
+            Text(
+              message,
+              style: AppTextStyles.body,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
-              child: PrimaryButton(label: AppStrings.tryAgain, onPressed: onRetry),
+              child: PrimaryButton(
+                label: AppStrings.tryAgain,
+                onPressed: onRetry,
+              ),
             ),
           ],
         ),

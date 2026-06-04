@@ -7,8 +7,9 @@ import '../constants/app_strings.dart';
 class Validators {
   const Validators._();
 
-  static final RegExp _emailPattern =
-      RegExp(r'^[\w.+-]+@([\w-]+\.)+[\w-]{2,}$');
+  static final RegExp _emailPattern = RegExp(
+    r'^[\w.+-]+@([\w-]+\.)+[\w-]{2,}$',
+  );
 
   /// NIK KTP Indonesia: tepat 16 digit angka.
   static final RegExp _nikPattern = RegExp(r'^\d{16}$');

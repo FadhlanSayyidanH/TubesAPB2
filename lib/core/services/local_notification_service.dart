@@ -43,20 +43,26 @@ class LocalNotificationService {
     );
     await _plugin.initialize(settings);
 
-    final android = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-    await android?.createNotificationChannel(const AndroidNotificationChannel(
-      _successChannelId,
-      _successChannelName,
-      description: 'Notifikasi saat absen masuk berhasil disimpan.',
-      importance: Importance.high,
-    ));
-    await android?.createNotificationChannel(const AndroidNotificationChannel(
-      _reminderChannelId,
-      _reminderChannelName,
-      description: 'Pengingat harian untuk melakukan absen masuk.',
-      importance: Importance.high,
-    ));
+    final android = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
+    await android?.createNotificationChannel(
+      const AndroidNotificationChannel(
+        _successChannelId,
+        _successChannelName,
+        description: 'Notifikasi saat absen masuk berhasil disimpan.',
+        importance: Importance.high,
+      ),
+    );
+    await android?.createNotificationChannel(
+      const AndroidNotificationChannel(
+        _reminderChannelId,
+        _reminderChannelName,
+        description: 'Pengingat harian untuk melakukan absen masuk.',
+        importance: Importance.high,
+      ),
+    );
 
     _initialized = true;
   }
@@ -64,8 +70,10 @@ class LocalNotificationService {
   /// Minta izin notifikasi (Android 13+). Di bawah Android 13 izin runtime tidak
   /// diperlukan sehingga dianggap diizinkan.
   Future<bool> requestPermission() async {
-    final android = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final android = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     final granted = await android?.requestNotificationsPermission();
     return granted ?? true;
   }

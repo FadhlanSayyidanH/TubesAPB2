@@ -64,8 +64,9 @@ class _OfflineBar extends StatelessWidget {
                 child: Text(
                   AppStrings.offlineBanner,
                   textAlign: TextAlign.center,
-                  style: AppTextStyles.caption
-                      .copyWith(color: AppColors.textOnDark),
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textOnDark,
+                  ),
                 ),
               ),
             ],

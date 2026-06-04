@@ -55,11 +55,11 @@ class FaceCaptureState extends Equatable {
 
   @override
   List<Object?> get props => [
-        status,
-        controller,
-        capturedPath,
-        cameraErrorMessage,
-        canOpenSettings,
-        rejectionMessage,
-      ];
+    status,
+    controller,
+    capturedPath,
+    cameraErrorMessage,
+    canOpenSettings,
+    rejectionMessage,
+  ];
 }

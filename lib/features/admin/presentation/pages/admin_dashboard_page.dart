@@ -56,9 +56,9 @@ class _AdminView extends StatelessWidget {
       helpText: AppStrings.exportTitle,
     );
     if (range != null && context.mounted) {
-      context
-          .read<ExportBloc>()
-          .add(ExportRequested(from: range.start, to: range.end));
+      context.read<ExportBloc>().add(
+        ExportRequested(from: range.start, to: range.end),
+      );
     }
   }
 
@@ -68,22 +68,25 @@ class _AdminView extends StatelessWidget {
       case ExportStatus.loading:
         messenger
           ..hideCurrentSnackBar()
-          ..showSnackBar(
-              SnackBar(content: Text(AppStrings.exportPreparing)));
+          ..showSnackBar(SnackBar(content: Text(AppStrings.exportPreparing)));
       case ExportStatus.success:
         messenger.hideCurrentSnackBar();
         // Buka share sheet sistem dengan file CSV-nya.
-        await SharePlus.instance.share(ShareParams(
-          files: [XFile(state.filePath!)],
-          text: AppStrings.exportShareText,
-        ));
+        await SharePlus.instance.share(
+          ShareParams(
+            files: [XFile(state.filePath!)],
+            text: AppStrings.exportShareText,
+          ),
+        );
       case ExportStatus.failure:
         messenger
           ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(
-            content: Text(state.message ?? AppStrings.errUnknown),
-            backgroundColor: AppColors.error,
-          ));
+          ..showSnackBar(
+            SnackBar(
+              content: Text(state.message ?? AppStrings.errUnknown),
+              backgroundColor: AppColors.error,
+            ),
+          );
       case ExportStatus.idle:
         break;
     }
@@ -98,45 +101,52 @@ class _AdminView extends StatelessWidget {
       listenWhen: (prev, curr) => prev.status != curr.status,
       listener: _onExportState,
       child: Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.adminTitle),
-        actions: [
-          IconButton(
-            tooltip: AppStrings.exportTitle,
-            icon:
-                const Icon(Icons.file_download_outlined, color: AppColors.textOnDark),
-            onPressed: () => _onExport(context),
-          ),
-          IconButton(
-            tooltip: AppStrings.employeesTitle,
-            icon: const Icon(Icons.group_outlined, color: AppColors.textOnDark),
-            onPressed: () => context.push('/admin/employees'),
-          ),
-          const _LiveBadge(),
-          const SizedBox(width: 8),
-          const LogoutButton(),
-        ],
-      ),
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () async => context
-              .read<AdminStatsBloc>()
-              .add(const AdminCountRefreshRequested()),
-          child: BlocBuilder<AdminStatsBloc, AdminStatsState>(
-            builder: (context, state) {
-              switch (state.status) {
-                case AdminStatus.initial:
-                case AdminStatus.loading:
-                  return const _CenteredLoader();
-                case AdminStatus.error:
-                  return _ErrorView(message: state.message ?? AppStrings.errUnknown);
-                case AdminStatus.loaded:
-                  return _LoadedView(name: name, stats: state.stats!);
-              }
-            },
+        appBar: AppBar(
+          title: Text(AppStrings.adminTitle),
+          actions: [
+            IconButton(
+              tooltip: AppStrings.exportTitle,
+              icon: const Icon(
+                Icons.file_download_outlined,
+                color: AppColors.textOnDark,
+              ),
+              onPressed: () => _onExport(context),
+            ),
+            IconButton(
+              tooltip: AppStrings.employeesTitle,
+              icon: const Icon(
+                Icons.group_outlined,
+                color: AppColors.textOnDark,
+              ),
+              onPressed: () => context.push('/admin/employees'),
+            ),
+            const _LiveBadge(),
+            const SizedBox(width: 8),
+            const LogoutButton(),
+          ],
+        ),
+        body: SafeArea(
+          child: RefreshIndicator(
+            onRefresh: () async => context.read<AdminStatsBloc>().add(
+              const AdminCountRefreshRequested(),
+            ),
+            child: BlocBuilder<AdminStatsBloc, AdminStatsState>(
+              builder: (context, state) {
+                switch (state.status) {
+                  case AdminStatus.initial:
+                  case AdminStatus.loading:
+                    return const _CenteredLoader();
+                  case AdminStatus.error:
+                    return _ErrorView(
+                      message: state.message ?? AppStrings.errUnknown,
+                    );
+                  case AdminStatus.loaded:
+                    return _LoadedView(name: name, stats: state.stats!);
+                }
+              },
+            ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -153,8 +163,10 @@ class _LoadedView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       children: [
         Text(AppStrings.greetingNamed(name), style: AppTextStyles.headline),
-        Text(formatTanggalLengkap(DateTime.now()),
-            style: AppTextStyles.subtitle),
+        Text(
+          formatTanggalLengkap(DateTime.now()),
+          style: AppTextStyles.subtitle,
+        ),
         const SizedBox(height: 20),
         Text(AppStrings.adminTodaySection, style: AppTextStyles.title),
         const SizedBox(height: 12),
@@ -171,7 +183,8 @@ class _LoadedView extends StatelessWidget {
         Text(AppStrings.adminClockInDistSection, style: AppTextStyles.title),
         const SizedBox(height: 12),
         _ChartCard(
-            child: ClockInDistributionChart(counts: stats.clockInHourCounts)),
+          child: ClockInDistributionChart(counts: stats.clockInHourCounts),
+        ),
       ],
     );
   }
@@ -215,9 +228,13 @@ class _LiveBadge extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 5),
-          Text(AppStrings.adminLiveBadge,
-              style: AppTextStyles.caption
-                  .copyWith(color: AppColors.statusHadir, fontSize: 10)),
+          Text(
+            AppStrings.adminLiveBadge,
+            style: AppTextStyles.caption.copyWith(
+              color: AppColors.statusHadir,
+              fontSize: 10,
+            ),
+          ),
         ],
       ),
     );
@@ -254,9 +271,9 @@ class _ErrorView extends StatelessWidget {
         const SizedBox(height: 16),
         Center(
           child: TextButton(
-            onPressed: () => context
-                .read<AdminStatsBloc>()
-                .add(const AdminDashboardStarted()),
+            onPressed: () => context.read<AdminStatsBloc>().add(
+              const AdminDashboardStarted(),
+            ),
             child: Text(AppStrings.tryAgain),
           ),
         ),

@@ -1,6 +1,7 @@
-# Setup — Smart Attendance (Hari 1–2)
+# Setup — Smart Absen
 
-Panduan menyiapkan Firebase agar login (email/NIK) bisa langsung didemo.
+Panduan menyiapkan Firebase agar aplikasi (login email/NIK, absen, admin) bisa langsung
+dijalankan.
 
 ## 1. Hubungkan project ke Firebase
 
@@ -61,10 +62,47 @@ flutter run
 - `role: employee` → diarahkan ke `/dashboard`; `role: admin` → `/admin`.
 - "Ingat saya" menyimpan identifier terakhir (bukan password) untuk pre-fill.
 
+## 5. Buat dokumen kantor (untuk validasi radius GPS)
+
+Absen masuk/pulang memvalidasi posisi terhadap kantor. Buat satu dokumen di koleksi
+`offices` (ID bebas, mis. `kantor-pusat`):
+
+```jsonc
+// /offices/{id}
+{
+  "name": "Telkom University",
+  "address": "Jl. Telekomunikasi No. 1, Terusan Buah Batu, Bojongsoang, Bandung",
+  "location": { "_latitude": -6.974028, "_longitude": 107.630529 }, // GeoPoint
+  "radius": 500   // meter
+}
+```
+
+Sesuaikan `location` & `radius` ke lokasi Anda agar status "Dalam Area" muncul saat
+pengujian.
+
+## Build rilis (opsional)
+
+Untuk menandatangani APK rilis sendiri, buat keystore lalu isi `android/key.properties`
+(keduanya **tidak** ikut di repo):
+
+```bash
+keytool -genkey -v -keystore android/app/upload-keystore.jks \
+  -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+```
+
+```properties
+# android/key.properties
+storePassword=<password>
+keyPassword=<password>
+keyAlias=upload
+storeFile=upload-keystore.jks
+```
+
+Tanpa file ini, `flutter build apk --release` jatuh ke debug signing agar tetap jalan.
+
 ## Catatan konfigurasi
 
-- `android/app/build.gradle.kts`: `minSdk` dinaikkan ke 23 (syarat Firebase Auth 5.x).
-- Koordinat kantor default untuk modul GPS (Hari 3): **-6.2088, 106.8456** (Jakarta),
-  radius **500 m**. Status "telat" bila clock-in setelah **08:30**.
-- Buat dokumen `/offices/{id}` dengan field `location` (GeoPoint), `radius` (500),
-  `name`, `address` saat mulai Hari 3.
+- `android/app/build.gradle.kts`: `minSdk` dinaikkan ke **23** (syarat Firebase Auth 6.x).
+- Status "telat" bila clock-in setelah **08:30** (lihat `AppConfig`).
+- Peta Google dinonaktifkan secara default (`AppConfig.mapsEnabled = false`); aktifkan
+  Maps SDK for Android di GCP lalu set `true` bila ingin peta tampil.

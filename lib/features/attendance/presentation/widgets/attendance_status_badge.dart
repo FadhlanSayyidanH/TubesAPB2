@@ -13,11 +13,11 @@ class AttendanceStatusBadge extends StatelessWidget {
   const AttendanceStatusBadge({super.key, required this.status});
 
   Color get _color => switch (status) {
-        AttendanceStatus.hadir => AppColors.statusHadir,
-        AttendanceStatus.telat => AppColors.statusTelat,
-        AttendanceStatus.izin => AppColors.statusIzin,
-        AttendanceStatus.alpha => AppColors.statusAlpha,
-      };
+    AttendanceStatus.hadir => AppColors.statusHadir,
+    AttendanceStatus.telat => AppColors.statusTelat,
+    AttendanceStatus.izin => AppColors.statusIzin,
+    AttendanceStatus.alpha => AppColors.statusAlpha,
+  };
 
   @override
   Widget build(BuildContext context) {

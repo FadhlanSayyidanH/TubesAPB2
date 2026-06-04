@@ -22,10 +22,12 @@ class EmployeeListState extends Equatable {
     if (query.trim().isEmpty) return users;
     final q = query.trim().toLowerCase();
     return users
-        .where((u) =>
-            u.name.toLowerCase().contains(q) ||
-            u.nik.toLowerCase().contains(q) ||
-            u.department.toLowerCase().contains(q))
+        .where(
+          (u) =>
+              u.name.toLowerCase().contains(q) ||
+              u.nik.toLowerCase().contains(q) ||
+              u.department.toLowerCase().contains(q),
+        )
         .toList();
   }
 

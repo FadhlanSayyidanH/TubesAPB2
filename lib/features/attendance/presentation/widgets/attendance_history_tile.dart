@@ -20,12 +20,14 @@ class AttendanceHistoryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final timeFmt = DateFormat('HH:mm');
-    final pulang = record.hasClockedOut ? timeFmt.format(record.clockOut!) : '–';
+    final pulang = record.hasClockedOut
+        ? timeFmt.format(record.clockOut!)
+        : '–';
     // Izin tak punya jam masuk/pulang — tampilkan alasannya sebagai ganti.
     final subtitle = record.isLeave
         ? ((record.reason?.trim().isNotEmpty ?? false)
-            ? record.reason!.trim()
-            : AppStrings.leaveTitle)
+              ? record.reason!.trim()
+              : AppStrings.leaveTitle)
         : AppStrings.historyTileTimes(timeFmt.format(record.clockIn), pulang);
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -44,8 +46,10 @@ class AttendanceHistoryTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(formatTanggalLengkap(record.clockIn),
-                        style: AppTextStyles.bodyBold),
+                    Text(
+                      formatTanggalLengkap(record.clockIn),
+                      style: AppTextStyles.bodyBold,
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       subtitle,

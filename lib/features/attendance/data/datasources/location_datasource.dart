@@ -4,7 +4,8 @@ import 'dart:async';
 
 // geolocator mengekspor LocationServiceDisabledException-nya sendiri; kita
 // sembunyikan agar tidak bentrok dengan versi domain di core/errors.
-import 'package:geolocator/geolocator.dart' hide LocationServiceDisabledException;
+import 'package:geolocator/geolocator.dart'
+    hide LocationServiceDisabledException;
 
 import '../../../../core/errors/exceptions.dart';
 

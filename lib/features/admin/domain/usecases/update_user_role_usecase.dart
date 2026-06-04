@@ -14,6 +14,5 @@ class UpdateUserRoleUseCase {
   Future<Either<Failure, void>> call({
     required String uid,
     required UserRole role,
-  }) =>
-      _repository.updateUserRole(uid, role);
+  }) => _repository.updateUserRole(uid, role);
 }

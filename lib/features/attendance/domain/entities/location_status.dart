@@ -25,6 +25,10 @@ class LocationStatus extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [userLatitude, userLongitude, distanceMeters, isWithinOfficeRadius];
+  List<Object?> get props => [
+    userLatitude,
+    userLongitude,
+    distanceMeters,
+    isWithinOfficeRadius,
+  ];
 }

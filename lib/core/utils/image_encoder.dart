@@ -28,8 +28,8 @@ class ImageEncoder {
     final prepared = !needsResize
         ? decoded
         : (decoded.width >= decoded.height
-            ? img.copyResize(decoded, width: _maxSide)
-            : img.copyResize(decoded, height: _maxSide));
+              ? img.copyResize(decoded, width: _maxSide)
+              : img.copyResize(decoded, height: _maxSide));
 
     final jpg = img.encodeJpg(prepared, quality: _jpegQuality);
     return 'data:image/jpeg;base64,${base64Encode(jpg)}';

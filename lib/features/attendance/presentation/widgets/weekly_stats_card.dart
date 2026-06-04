@@ -29,12 +29,16 @@ class WeeklyStatsCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(AppStrings.weeklyAttendanceTitle,
-                          style: AppTextStyles.bodyBold),
+                      Text(
+                        AppStrings.weeklyAttendanceTitle,
+                        style: AppTextStyles.bodyBold,
+                      ),
                       const SizedBox(height: 4),
                       Text(
                         AppStrings.presentOfWorkdays(
-                            stats.present, stats.workdaysElapsed),
+                          stats.present,
+                          stats.workdaysElapsed,
+                        ),
                         style: AppTextStyles.subtitle,
                       ),
                     ],
@@ -46,21 +50,25 @@ class WeeklyStatsCard extends StatelessWidget {
             Row(
               children: [
                 _StatTile(
-                    label: AppStrings.statusHadir,
-                    value: stats.hadir,
-                    color: AppColors.statusHadir),
+                  label: AppStrings.statusHadir,
+                  value: stats.hadir,
+                  color: AppColors.statusHadir,
+                ),
                 _StatTile(
-                    label: AppStrings.statusTelat,
-                    value: stats.telat,
-                    color: AppColors.statusTelat),
+                  label: AppStrings.statusTelat,
+                  value: stats.telat,
+                  color: AppColors.statusTelat,
+                ),
                 _StatTile(
-                    label: AppStrings.statusIzin,
-                    value: stats.izin,
-                    color: AppColors.statusIzin),
+                  label: AppStrings.statusIzin,
+                  value: stats.izin,
+                  color: AppColors.statusIzin,
+                ),
                 _StatTile(
-                    label: AppStrings.statusAlpha,
-                    value: stats.alpha,
-                    color: AppColors.statusAlpha),
+                  label: AppStrings.statusAlpha,
+                  value: stats.alpha,
+                  color: AppColors.statusAlpha,
+                ),
               ],
             ),
           ],
@@ -79,8 +87,8 @@ class _PercentageRing extends StatelessWidget {
     final color = percentage >= 80
         ? AppColors.statusHadir
         : percentage >= 50
-            ? AppColors.statusTelat
-            : AppColors.statusAlpha;
+        ? AppColors.statusTelat
+        : AppColors.statusAlpha;
     return SizedBox(
       height: 68,
       width: 68,
@@ -97,8 +105,10 @@ class _PercentageRing extends StatelessWidget {
               valueColor: AlwaysStoppedAnimation(color),
             ),
           ),
-          Text('$percentage%',
-              style: AppTextStyles.bodyBold.copyWith(color: color)),
+          Text(
+            '$percentage%',
+            style: AppTextStyles.bodyBold.copyWith(color: color),
+          ),
         ],
       ),
     );
@@ -110,8 +120,11 @@ class _StatTile extends StatelessWidget {
   final int value;
   final Color color;
 
-  const _StatTile(
-      {required this.label, required this.value, required this.color});
+  const _StatTile({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -125,8 +138,7 @@ class _StatTile extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text('$value',
-                style: AppTextStyles.title.copyWith(color: color)),
+            Text('$value', style: AppTextStyles.title.copyWith(color: color)),
             const SizedBox(height: 2),
             Text(label, style: AppTextStyles.caption),
           ],

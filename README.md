@@ -59,6 +59,14 @@ assets/                    # ikon & animasi Lottie
 → kembalikan `Either<Failure, T>` (dartz) ke presentation. Pesan `Failure` sudah
 siap-tampil dalam Bahasa Indonesia.
 
+## Dokumentasi teknis
+
+Detail arsitektur, skema data, dan kontrak API ada di folder **[docs/](docs/)**:
+
+- **[Arsitektur](docs/ARSITEKTUR.md)** — lapisan, aliran data, state, DI, navigasi.
+- **[ER Diagram](docs/ER_DIAGRAM.md)** — skema Firestore & relasi antar koleksi.
+- **[API & Kontrak Data](docs/API.md)** — repository contract, operasi Firestore, keamanan.
+
 ## Mulai
 
 Lihat **[SETUP.md](SETUP.md)** untuk menyambungkan Firebase, mengaktifkan layanan, dan

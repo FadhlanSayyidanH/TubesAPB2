@@ -3,6 +3,10 @@
 CLAUDE.md
 _dev/
 
+# Firebase config (berisi API key/Project ID — generate ulang via flutterfire configure)
+android/app/google-services.json
+lib/firebase_options.dart
+
 # Miscellaneous
 *.class
 *.log

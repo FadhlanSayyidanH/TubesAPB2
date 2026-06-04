@@ -1,0 +1,11 @@
+# Normalkan akhir baris: simpan sebagai LF di repo, checkout sesuai OS.
+* text=auto eol=lf
+
+# File biner — jangan diutak-atik git.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.jks binary
+*.keystore binary
+*.ttf binary
+*.otf binary

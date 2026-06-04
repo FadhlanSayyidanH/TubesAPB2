@@ -1,0 +1,23 @@
+// Part of: Auth - Domain
+
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/errors/failures.dart';
+import '../entities/user_entity.dart';
+import '../repositories/auth_repository.dart';
+
+class LoginUseCase {
+  final AuthRepository _repository;
+
+  LoginUseCase(this._repository);
+
+  Future<Either<Failure, UserEntity>> call({
+    required String identifier,
+    required String password,
+  }) {
+    return _repository.login(
+      identifier: identifier.trim(),
+      password: password,
+    );
+  }
+}

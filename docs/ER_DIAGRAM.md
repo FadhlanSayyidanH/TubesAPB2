@@ -6,6 +6,10 @@ di sini memetakan **koleksi**, **field**, dan **relasi logis** antar dokumen
 
 ---
 
+> **Versi visual (Excalidraw):** [buka & edit di excalidraw.com](https://excalidraw.com/#json=VuWlXz5g9foczI9Y7xpEp,2qcsvCz53faE42gKSH2K4w)
+> · sumber offline: [`er-diagram.excalidraw`](er-diagram.excalidraw) (drag ke
+> [excalidraw.com](https://excalidraw.com) untuk membuka).
+
 ## 1. Diagram relasi
 
 ```mermaid

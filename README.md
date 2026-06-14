@@ -25,8 +25,8 @@ Firebase mengikuti Clean Architecture.
 - **Flutter** (stable) / **Dart**, target utama Android.
 - **Firebase**: Auth (Email/Password), Cloud Firestore, Messaging.
 - **State**: flutter_bloc · **DI**: get_it · **Navigasi**: go_router.
-- Lain: geolocator, google_maps_flutter, camera + google_mlkit_face_detection,
-  dartz (`Either`), intl, fl_chart, shimmer, google_fonts.
+- Lain: geolocator, flutter_map + latlong2 (OpenStreetMap), camera +
+  google_mlkit_face_detection, dartz (`Either`), intl, fl_chart, shimmer, google_fonts.
 
 ## Struktur proyek
 
@@ -111,9 +111,8 @@ desain menyesuaikan:
   Blaze). Foto dikompres (sisi terpanjang ≤ 800px, JPEG q70 → ~40KB) ke field
   `selfieUrl`. Untuk pindah ke Storage: aktifkan Storage lalu ganti pemanggil
   `ImageEncoder` di repository menjadi upload Storage.
-- **Peta Google dinonaktifkan** (`AppConfig.mapsEnabled = false`) karena Maps SDK belum
-  diaktifkan di GCP. Halaman absen memakai fallback `MapUnavailableView`. Lihat SETUP
-  untuk mengaktifkan.
+- **Peta menggunakan OpenStreetMap** (via `flutter_map`) — tidak memerlukan API key atau
+  billing. Tile dimuat langsung dari server OSM.
 - **Push notification** masih lokal di perangkat. Token FCM sudah disimpan di Firestore;
   push terjadwal dari server (Cloud Functions) butuh paket Blaze.
 

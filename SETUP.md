@@ -104,5 +104,5 @@ Tanpa file ini, `flutter build apk --release` jatuh ke debug signing agar tetap 
 
 - `android/app/build.gradle.kts`: `minSdk` dinaikkan ke **23** (syarat Firebase Auth 6.x).
 - Status "telat" bila clock-in setelah **08:30** (lihat `AppConfig`).
-- Peta Google dinonaktifkan secara default (`AppConfig.mapsEnabled = false`); aktifkan
-  Maps SDK for Android di GCP lalu set `true` bila ingin peta tampil.
+- Peta menggunakan **OpenStreetMap** via `flutter_map` — tidak perlu API key atau konfigurasi
+  tambahan, langsung berjalan setelah `flutter pub get`.

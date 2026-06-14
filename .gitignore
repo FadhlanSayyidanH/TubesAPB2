@@ -7,6 +7,10 @@ _dev/
 android/app/google-services.json
 lib/firebase_options.dart
 
+# Keystore rilis & kredensial penandatanganan APK — JANGAN di-commit
+android/key.properties
+android/app/upload-keystore.jks
+
 # Miscellaneous
 *.class
 *.log

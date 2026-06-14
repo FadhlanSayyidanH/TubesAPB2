@@ -10,14 +10,6 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// UNTUK APA: mengambil kunci Google Maps dari file local.properties. Kunci tidak
-// ditulis langsung di sini supaya tidak ikut terunggah ke git (rahasia).
-val localProperties = Properties().apply {
-    val file = rootProject.file("local.properties")
-    if (file.exists()) file.inputStream().use { load(it) }
-}
-val mapsApiKey: String = localProperties.getProperty("MAPS_API_KEY") ?: ""
-
 // UNTUK APA: mengambil data keystore (kunci penanda tangan APK rilis) dari file
 // key.properties. File ini berisi password sehingga sengaja tidak masuk git.
 // hasReleaseSigning = penanda apakah file kunci tersedia di komputer ini.
@@ -53,8 +45,6 @@ android {
         // Nomor versi aplikasi diambil dari pubspec.yaml (mis. 1.0.0+1).
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        // Menyisipkan kunci Google Maps ke AndroidManifest saat build.
-        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
     }
 
     // UNTUK APA: mendaftarkan kunci penanda tangan APK rilis (dari key.properties).

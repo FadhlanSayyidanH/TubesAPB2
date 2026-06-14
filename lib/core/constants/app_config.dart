@@ -4,12 +4,9 @@
 class AppConfig {
   const AppConfig._();
 
-  /// Tampilkan peta Google Maps di halaman clock-in.
-  ///
-  /// Set `false` selama "Maps SDK for Android" + billing belum aktif di GCP
-  /// project, agar area peta diganti ringkasan lokasi (bukan kotak kosong).
-  /// Ubah ke `true` setelah Maps di-enable — tidak perlu ubah kode lain.
-  static const bool mapsEnabled = false;
+  /// Tampilkan peta OpenStreetMap di halaman clock-in.
+  /// OSM tidak memerlukan API key atau billing — selalu aktif.
+  static const bool mapsEnabled = true;
 
   /// Ambang keterlambatan: clock-in setelah jam ini berstatus "telat".
   static const int lateThresholdHour = 8;

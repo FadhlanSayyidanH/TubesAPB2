@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_config.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/services/local_notification_service.dart';
@@ -22,7 +21,6 @@ import '../bloc/clock_in_bloc.dart';
 import '../widgets/attendance_status_badge.dart';
 import '../widgets/clock_in_map.dart';
 import '../widgets/location_status_indicator.dart';
-import '../widgets/map_unavailable_view.dart';
 
 class ClockInPage extends StatelessWidget {
   const ClockInPage({super.key});
@@ -132,10 +130,7 @@ class _MapAndActions extends StatelessWidget {
         Expanded(
           child: Stack(
             children: [
-              if (AppConfig.mapsEnabled)
-                ClockInMap(office: office, location: location)
-              else
-                MapUnavailableView(office: office, location: location),
+              ClockInMap(office: office, location: location),
               if (location == null) const _MapOverlayLoader(),
             ],
           ),

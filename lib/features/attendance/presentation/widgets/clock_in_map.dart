@@ -1,7 +1,8 @@
 // Part of: Attendance - Presentation
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -10,6 +11,7 @@ import '../../domain/entities/office_entity.dart';
 
 /// Peta clock-in: marker kantor (oranye) + lingkaran radius semi-transparan,
 /// dan marker posisi user (biru) yang ikut bergerak saat lokasi diperbarui.
+/// Tile dari OpenStreetMap — tidak memerlukan API key atau billing.
 class ClockInMap extends StatefulWidget {
   final OfficeEntity office;
   final LocationStatus? location;
@@ -21,7 +23,7 @@ class ClockInMap extends StatefulWidget {
 }
 
 class _ClockInMapState extends State<ClockInMap> {
-  GoogleMapController? _controller;
+  late final MapController _controller;
 
   LatLng get _officeLatLng =>
       LatLng(widget.office.latitude, widget.office.longitude);
@@ -31,66 +33,93 @@ class _ClockInMapState extends State<ClockInMap> {
       : LatLng(widget.location!.userLatitude, widget.location!.userLongitude);
 
   @override
+  void initState() {
+    super.initState();
+    _controller = MapController();
+  }
+
+  @override
   void didUpdateWidget(covariant ClockInMap oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Geser kamera mengikuti posisi user setiap kali lokasi diperbarui.
     final user = _userLatLng;
     if (user != null && widget.location != oldWidget.location) {
-      _controller?.animateCamera(CameraUpdate.newLatLng(user));
+      _controller.move(user, _controller.camera.zoom);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final inside = widget.location?.isWithinOfficeRadius ?? true;
-    final radiusColor = inside
-        ? AppColors.insideRadius
-        : AppColors.outsideRadius;
+    final radiusColor =
+        inside ? AppColors.insideRadius : AppColors.outsideRadius;
+    final userLatLng = _userLatLng;
 
-    return GoogleMap(
-      initialCameraPosition: CameraPosition(target: _officeLatLng, zoom: 15.5),
-      onMapCreated: (controller) => _controller = controller,
-      myLocationEnabled: false,
-      myLocationButtonEnabled: false,
-      zoomControlsEnabled: false,
-      markers: {
-        Marker(
-          markerId: const MarkerId('office'),
-          position: _officeLatLng,
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-            BitmapDescriptor.hueOrange,
-          ),
-          infoWindow: InfoWindow(
-            title: widget.office.name,
-            snippet: 'Radius ${widget.office.radiusMeters} m',
-          ),
+    return FlutterMap(
+      mapController: _controller,
+      options: MapOptions(
+        initialCenter: _officeLatLng,
+        initialZoom: 15.5,
+      ),
+      children: [
+        TileLayer(
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          // Wajib untuk OSM usage policy.
+          userAgentPackageName: 'com.smartattendance.smart_attendance',
         ),
-        if (_userLatLng != null)
-          Marker(
-            markerId: const MarkerId('user'),
-            position: _userLatLng!,
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueAzure,
+        CircleLayer(
+          circles: [
+            CircleMarker(
+              point: _officeLatLng,
+              radius: widget.office.radiusMeters.toDouble(),
+              useRadiusInMeter: true,
+              color: radiusColor.withValues(alpha: 0.15),
+              borderColor: radiusColor.withValues(alpha: 0.7),
+              borderStrokeWidth: 2,
             ),
-            infoWindow: InfoWindow(title: AppStrings.mapYourPosition),
-          ),
-      },
-      circles: {
-        Circle(
-          circleId: const CircleId('office_radius'),
-          center: _officeLatLng,
-          radius: widget.office.radiusMeters.toDouble(),
-          fillColor: radiusColor.withValues(alpha: 0.12),
-          strokeColor: radiusColor.withValues(alpha: 0.6),
-          strokeWidth: 2,
+          ],
         ),
-      },
+        MarkerLayer(
+          markers: [
+            Marker(
+              point: _officeLatLng,
+              width: 48,
+              height: 48,
+              child: Tooltip(
+                message:
+                    '${widget.office.name} • radius ${widget.office.radiusMeters} m',
+                child: const Icon(
+                  Icons.location_pin,
+                  color: AppColors.safetyOrange,
+                  size: 40,
+                  shadows: [Shadow(blurRadius: 4, color: Colors.black38)],
+                ),
+              ),
+            ),
+            if (userLatLng != null)
+              Marker(
+                point: userLatLng,
+                width: 40,
+                height: 40,
+                child: Tooltip(
+                  message: AppStrings.mapYourPosition,
+                  child: const Icon(
+                    Icons.my_location,
+                    color: Colors.blue,
+                    size: 32,
+                    shadows: [Shadow(blurRadius: 4, color: Colors.black38)],
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ],
     );
   }
 
   @override
   void dispose() {
-    _controller?.dispose();
+    _controller.dispose();
     super.dispose();
   }
 }
